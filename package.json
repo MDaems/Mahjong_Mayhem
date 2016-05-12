@@ -1,13 +1,21 @@
 {
-  "name": "mahjong",
+  "name": "mahjong-mayhem",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "MMO Mahjong",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "MDaems",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CapitalistHippie/MahjongMayhem.git"
+  },
+  "author": "Simon van der Meer",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CapitalistHippie/MahjongMayhem/issues"
+  },
+  "homepage": "https://github.com/CapitalistHippie/MahjongMayhem#readme",
   "devDependencies": {
     "angular": "^1.5.5",
     "grunt": "^1.0.1",

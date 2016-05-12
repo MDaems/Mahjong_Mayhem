@@ -6,8 +6,8 @@ module.exports = function(grunt)
     {
       all:
       {
-        src: "app/js/app.js",
-        dest: "dist/js/app.js",
+        src: "app/app.js",
+        dest: "dist/app.js",
         options:
         {
           external: ["angular"],
