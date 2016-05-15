@@ -2,13 +2,36 @@
 <head>
   <!--<link rel="stylesheet" href="css/app.css"/>-->
 </head>
-  <body ng-controller="GameController as gc">
-  <h1>Games</h1>
+  <!--<body ng-controller="GameController as gc">-->
+<body>
+  <div ng-controller="GameController as gc" style="float:left; width:300px;">
+	  <h1>Games</h1>
 
-  <p ng-repeat="g in gc.GameFactory.games">
-    <span>id: {{ g.id }}</span>
-    <span>Status: {{ g.status }}</span>
-  </p>
+	  <table>
+		  <thead>
+		  	<tr>
+				<th>GameId</th>
+				<th>Min spelers</th>
+				<th>Max spelers</th>
+				<th>Spelers</th>
+				<th>Status</th>
+				<th>Actie</th>
+			</tr>
+		  </thead>
+		  <tbody>
+		  	<tr ng-repeat="g in gc.GameFactory.games">
+				<td>{{ g.id }}</td>
+				<td>{{ g.minPlayers }}</td>
+				<td>{{ g.maxPlayers }}</td>
+				<td>{{ g.players.length }}</td>
+				<td>{{ g.state }}</td>
+				<td>
+					<button ng-if="gc.canJoin(g)" ng-click="gc.join(g)" class="btn btn-primary">Join</button>
+				</td>
+			</tr>
+		  </tbody>
+	  </table>
+  </div>
 
   <script src="app.js"></script>
 </body>
