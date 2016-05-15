@@ -20,7 +20,7 @@ module.exports = function($scope, $http, GameFactory) {
     });
 
 	self.canJoin = function(game) {
-		if(game.state != 'open') {
+		if(game.state != 'open' || game.maxPlayers <= game.players.length) {
 			return false;
 		}
 		else {
