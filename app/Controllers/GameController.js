@@ -1,11 +1,13 @@
-module.exports = function($scope, $http, GameFactory) {
+module.exports = function($scope, $http, GameFactory, $routeParams) {
 
     var self = this;
 
 
     self.GameFactory = GameFactory;
 
-	self.me = {__v: 0, _id: 'rasseldo@avans.nl', name: 'Ron van Asseldonk'};
+	self.me = {};// {__v: 0, _id: 'rasseldo@avans.nl', name: 'Ron van Asseldonk'};
+
+	console.log($routeParams);
 
 
     $http({
@@ -18,6 +20,11 @@ module.exports = function($scope, $http, GameFactory) {
         });
     }, function errorCallback(response) {
     });
+
+	self.isLoggedIn = function()
+	{
+		return self.me.name != undefined;
+	};
 
 	self.canJoin = function(game) {
 		if(game.state != 'open' || game.maxPlayers <= game.players.length) {

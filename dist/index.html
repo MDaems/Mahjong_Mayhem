@@ -13,12 +13,17 @@
 </head>
   <!--<body ng-controller="GameController as gc">-->
 <body>
-  <div ng-controller="GameController as gc" style="float:left; width:500px;">
-	  <h1>Games</h1>
+	<div ng-controller="GameController as gc" style="width:100%; padding-left:100px; padding-top:50px;">
+		<a ng-if="!gc.isLoggedIn()" href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://127.0.0.1:3000">inloggen</a>
+		<span ng-if="gc.isLoggedIn()">Ingelogde user = {{ gc.me }}</span>
+	</div>
 
-	  <table>
-		  <thead>
-		  	<tr>
+  	<div ng-controller="GameController as gc" style="float:left; width:500px;">
+	 	<h1>Games</h1>
+
+	<table>
+		<thead>
+			<tr>
 				<th>GameId</th>
 				<th>Min spelers</th>
 				<th>Max spelers</th>
@@ -26,9 +31,9 @@
 				<th>Status</th>
 				<th>Actie</th>
 			</tr>
-		  </thead>
-		  <tbody>
-		  	<tr ng-repeat="game in gc.GameFactory.games">
+		</thead>
+		<tbody>
+			<tr ng-repeat="game in gc.GameFactory.games">
 				<td>{{ game.id }}</td>
 				<td>{{ game.minPlayers }}</td>
 				<td>{{ game.maxPlayers }}</td>
@@ -39,47 +44,40 @@
 					<button ng-if="gc.allowedToSeeTiles(game)" ng-click="gc.getTiles(game)">Get Tiles</button>
 				</td>
 			</tr>
-		  </tbody>
-	  </table>
-  </div>
+		</tbody>
+	</table>
+	</div>
 
-  <div ng-controller="GameController as gc" style="float:left; margin-left:50px; width:500px;">
-	  <h1>Tiles</h1>
+	<div ng-controller="GameController as gc" style="float:left; margin-left:50px; width:500px;">
+		<h1>Tiles</h1>
 
-	  <table>
-		  <thead>
-		  	<tr>
-				<th>xPos</th>
-				<th>yPos</th>
-				<th>zPos</th>
-				<th>tile.id</th>
-				<th>tile.matchesWholeSuit</th>
-				<th>tile.name</th>
-				<th>tile.suit</th>
-			</tr>
-		  </thead>
-		  <tbody>
-			<tr ng-repeat="tile in gc.GameFactory.tiles">
-				<td>{{ tile.xPos }}</td>
-				<td>{{ tile.yPos }}</td>
-				<td>{{ tile.zPos }}</td>
-				<td>{{ tile.tile.id }}</td>
-				<td>{{ tile.tile.matchesWholeSuit }}</td>
-				<td>{{ tile.tile.name }}</td>
-				<td>{{ tile.tile.suit }}</td>
-			</tr>
-		  </tbody>
-	  </table>
+		<table>
+			<thead>
+				<tr>
+					<th>xPos</th>
+					<th>yPos</th>
+					<th>zPos</th>
+					<th>tile.id</th>
+					<th>tile.matchesWholeSuit</th>
+					<th>tile.name</th>
+					<th>tile.suit</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="tile in gc.GameFactory.tiles">
+					<td>{{ tile.xPos }}</td>
+					<td>{{ tile.yPos }}</td>
+					<td>{{ tile.zPos }}</td>
+					<td>{{ tile.tile.id }}</td>
+					<td>{{ tile.tile.matchesWholeSuit }}</td>
+					<td>{{ tile.tile.name }}</td>
+					<td>{{ tile.tile.suit }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 
-	  {{ gc.tiles[0] }}
-	  <!--<table>-->
-		  <!--<thead>-->
-		  	<!---->
-		  <!--</thead>-->
-	  <!--</table>-->
-  </div>
-
-  <script src="app.js"></script>
-</body>
+	<script src="app.js"></script>
+	</body>
 
 </html>
