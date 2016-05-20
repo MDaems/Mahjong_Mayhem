@@ -12,7 +12,7 @@ module.exports = function($scope, $http, GameFactory) {
         method: 'GET',
         url: 'http://mahjongmayhem.herokuapp.com/Games'
     }).then(function successCallback(response) {
-        angular.forEach(response.data, function(game, index) {
+        angular.forEach(response.data, function(game) {
 
 			self.GameFactory.addGame(game);
         });
@@ -35,8 +35,12 @@ module.exports = function($scope, $http, GameFactory) {
 		}
 	};
 
-	self.join = function(game) {
+	self.allowedToSeeTiles = function(game)
+	{
+		return game.state != 'open';
+	};
 
+	self.join = function(game) {
 		//$http({
 		//	method: 'POST',
 		//	url: 'http://mahjongmayhem.herokuapp.com/Games/' + game._id + '/Players'
@@ -44,13 +48,21 @@ module.exports = function($scope, $http, GameFactory) {
 		//	self.GameFactory.join(game, self.me);
 		//},function errorCallback(response) {
 		//});
-
 		//TODO:: na het inloggen moet de onderstaande regel vervangen worden door ^ deze code
-
-
 		self.GameFactory.join(game, self.me);
 	};
 
-    this.msg = "hello world";
+	self.getTiles = function(game) {
+		$http({
+			method: 'GET',
+			url: 'https://mahjongmayhem.herokuapp.com/games/' + game.id + '/tiles'
+		}).then(function successCallback(response) {
+			angular.forEach(response.data, function(tile) {
+
+				self.GameFactory.addTile(tile);
+			});
+		}, function errorCallback(response) {
+		});
+	}
 
 };

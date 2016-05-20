@@ -1,10 +1,19 @@
 <html lang="en" ng-app="mahjong">
 <head>
   <!--<link rel="stylesheet" href="css/app.css"/>-->
+	<style>
+		td {
+			padding: 5px;
+			text-align: center;
+		}
+		th {
+			padding: 5px;
+		}
+	</style>
 </head>
   <!--<body ng-controller="GameController as gc">-->
 <body>
-  <div ng-controller="GameController as gc" style="float:left; width:300px;">
+  <div ng-controller="GameController as gc" style="float:left; width:500px;">
 	  <h1>Games</h1>
 
 	  <table>
@@ -19,18 +28,55 @@
 			</tr>
 		  </thead>
 		  <tbody>
-		  	<tr ng-repeat="g in gc.GameFactory.games">
-				<td>{{ g.id }}</td>
-				<td>{{ g.minPlayers }}</td>
-				<td>{{ g.maxPlayers }}</td>
-				<td>{{ g.players.length }}</td>
-				<td>{{ g.state }}</td>
+		  	<tr ng-repeat="game in gc.GameFactory.games">
+				<td>{{ game.id }}</td>
+				<td>{{ game.minPlayers }}</td>
+				<td>{{ game.maxPlayers }}</td>
+				<td>{{ game.players.length }}</td>
+				<td>{{ game.state }}</td>
 				<td>
-					<button ng-if="gc.canJoin(g)" ng-click="gc.join(g)" class="btn btn-primary">Join</button>
+					<button ng-if="gc.canJoin(game)" ng-click="gc.join(game)">Join</button>
+					<button ng-if="gc.allowedToSeeTiles(game)" ng-click="gc.getTiles(game)">Get Tiles</button>
 				</td>
 			</tr>
 		  </tbody>
 	  </table>
+  </div>
+
+  <div ng-controller="GameController as gc" style="float:left; margin-left:50px; width:500px;">
+	  <h1>Tiles</h1>
+
+	  <table>
+		  <thead>
+		  	<tr>
+				<th>xPos</th>
+				<th>yPos</th>
+				<th>zPos</th>
+				<th>tile.id</th>
+				<th>tile.matchesWholeSuit</th>
+				<th>tile.name</th>
+				<th>tile.suit</th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr ng-repeat="tile in gc.GameFactory.tiles">
+				<td>{{ tile.xPos }}</td>
+				<td>{{ tile.yPos }}</td>
+				<td>{{ tile.zPos }}</td>
+				<td>{{ tile.tile.id }}</td>
+				<td>{{ tile.tile.matchesWholeSuit }}</td>
+				<td>{{ tile.tile.name }}</td>
+				<td>{{ tile.tile.suit }}</td>
+			</tr>
+		  </tbody>
+	  </table>
+
+	  {{ gc.tiles[0] }}
+	  <!--<table>-->
+		  <!--<thead>-->
+		  	<!---->
+		  <!--</thead>-->
+	  <!--</table>-->
   </div>
 
   <script src="app.js"></script>
