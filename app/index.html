@@ -12,13 +12,13 @@
 	</style>
 </head>
   <!--<body ng-controller="GameController as gc">-->
-<body>
-	<div ng-controller="GameController as gc" style="width:100%; padding-left:100px; padding-top:50px;">
+<body  ng-controller="GameController as gc" >
+	<div style="width:100%; padding-left:100px; padding-top:50px;">
 		<a ng-if="!gc.isLoggedIn()" href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://127.0.0.1:3000">inloggen</a>
 		<span ng-if="gc.isLoggedIn()">Ingelogde user = {{ gc.me }}</span>
 	</div>
 
-  	<div ng-controller="GameController as gc" style="float:left; width:500px;">
+  	<div style="float:left; width:500px;">
 	 	<h1>Games</h1>
 
 	<table>
@@ -48,8 +48,17 @@
 	</table>
 	</div>
 
-	<div ng-controller="GameController as gc" style="float:left; margin-left:50px; width:500px;">
+	<div style="float:left; margin-left:50px; width:500px;">
 		<h1>Tiles</h1>
+
+		<table ng-if="gc.getRows() != undefined">
+			<tbody>
+				<tr ng-repeat="row in gc.getRows()">
+					<td>{{ row }} :</td>
+					<td ng-repeat="column in gc.getColumns()">{{ column }}</td>
+				</tr>
+			</tbody>
+		</table>
 
 		<table>
 			<thead>

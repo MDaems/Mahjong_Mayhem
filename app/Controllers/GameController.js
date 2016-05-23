@@ -1,13 +1,13 @@
-module.exports = function($scope, $http, GameFactory, $routeParams) {
+module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
 
     var self = this;
 
 
     self.GameFactory = GameFactory;
 
-	self.me = {};// {__v: 0, _id: 'rasseldo@avans.nl', name: 'Ron van Asseldonk'};
+	self.me = {};
 
-	console.log($routeParams);
+	//console.log($routeParams);
 
 
     $http({
@@ -42,11 +42,6 @@ module.exports = function($scope, $http, GameFactory, $routeParams) {
 		}
 	};
 
-	self.allowedToSeeTiles = function(game)
-	{
-		return game.state != 'open';
-	};
-
 	self.join = function(game) {
 		//$http({
 		//	method: 'POST',
@@ -57,6 +52,11 @@ module.exports = function($scope, $http, GameFactory, $routeParams) {
 		//});
 		//TODO:: na het inloggen moet de onderstaande regel vervangen worden door ^ deze code
 		self.GameFactory.join(game, self.me);
+	};
+
+	self.allowedToSeeTiles = function(game)
+	{
+		return game.state != 'open';
 	};
 
 	self.getTiles = function(game) {
@@ -70,6 +70,36 @@ module.exports = function($scope, $http, GameFactory, $routeParams) {
 			});
 		}, function errorCallback(response) {
 		});
+	};
+
+	self.getMaxRow = function() {
+		var maxRow = [];
+		for(var i = 0; i < self.GameFactory.tiles.length; i++)
+		{
+			if(maxRow != undefined)
+			{
+				maxRow.push(Number(self.GameFactory.tiles[i].xPos));
+			}
+		}
+		maxRow.sort(function(a,b){return a - b});
+
+		return maxRow;
+	};
+
+	self.getColumns = function()
+	{
+		var maxColumn = [];
+		for(var i = 0; i < self.GameFactory.tiles.length; i++)
+		{
+			if(maxColumn.indexOf(self.GameFactory.tiles[i].yPos) == -1)
+			{
+				maxColumn.push(Number(self.GameFactory.tiles[i].yPos));
+			}
+		}
+		maxColumn.sort(function(a,b){return a - b});
+
+		return maxColumn;
+
 	}
 
 };
