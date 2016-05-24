@@ -43,15 +43,19 @@ module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
 	};
 
 	self.join = function(game) {
-		//$http({
-		//	method: 'POST',
-		//	url: 'http://mahjongmayhem.herokuapp.com/Games/' + game._id + '/Players'
-		//}).then(function successCallback(response) {
-		//	self.GameFactory.join(game, self.me);
-		//},function errorCallback(response) {
-		//});
+		$http({
+			method: 'POST',
+			url: 'http://mahjongmayhem.herokuapp.com/Games/' + game._id + '/Players',
+			headers: {'token': window.localStorage['token'], 'username': window.localStorage['username']}
+		}).then(function successCallback(response) {
+			self.GameFactory.join(game, self.me);
+		},function errorCallback(response) {
+		});
+
+
 		//TODO:: na het inloggen moet de onderstaande regel vervangen worden door ^ deze code
-		self.GameFactory.join(game, self.me);
+		//console.log(window.localStorage['token']);
+		//self.GameFactory.join(game, self.me);
 	};
 
 	self.allowedToSeeTiles = function(game)

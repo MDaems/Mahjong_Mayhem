@@ -3,7 +3,6 @@ module.exports = function() {
     var factory = {};
 
     factory.games = [];
-
 	factory.tiles = [];
 
 	factory.addGame = function(game) {
