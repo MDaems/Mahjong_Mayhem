@@ -1,92 +1,30 @@
-<html lang="en" ng-app="mahjong">
+<!DOCTYPE html>
+<html>
 <head>
-  <!--<link rel="stylesheet" href="css/app.css"/>-->
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	<style>
-		td {
-			padding: 5px;
-			text-align: center;
-		}
-		th {
-			padding: 5px;
-		}
+		.navbar { border-radius:0; }
 	</style>
-</head>
-  <!--<body ng-controller="GameController as gc">-->
-<body  ng-controller="GameController as gc" >
-	<div style="width:100%; padding-left:100px; padding-top:50px;">
-		<a ng-if="!gc.isLoggedIn()" href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://127.0.0.1:3000">inloggen</a>
-		<span ng-if="gc.isLoggedIn()">Ingelogde user = {{ gc.me }}</span>
-	</div>
-
-  	<div style="float:left; width:500px;">
-	 	<h1>Games</h1>
-
-	<table>
-		<thead>
-			<tr>
-				<th>GameId</th>
-				<th>Min spelers</th>
-				<th>Max spelers</th>
-				<th>Spelers</th>
-				<th>Status</th>
-				<th>Actie</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="game in gc.GameFactory.games">
-				<td>{{ game.id }}</td>
-				<td>{{ game.minPlayers }}</td>
-				<td>{{ game.maxPlayers }}</td>
-				<td>{{ game.players.length }}</td>
-				<td>{{ game.state }}</td>
-				<td>
-					<button ng-if="gc.canJoin(game)" ng-click="gc.join(game)">Join</button>
-					<button ng-if="gc.allowedToSeeTiles(game)" ng-click="gc.getTiles(game)">Get Tiles</button>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	</div>
-
-	<div style="float:left; margin-left:50px; width:500px;">
-		<h1>Tiles</h1>
-
-		<table ng-if="gc.getRows() != undefined">
-			<tbody>
-				<tr ng-repeat="row in gc.getRows()">
-					<td>{{ row }} :</td>
-					<td ng-repeat="column in gc.getColumns()">{{ column }}</td>
-				</tr>
-			</tbody>
-		</table>
-
-		<table>
-			<thead>
-				<tr>
-					<th>xPos</th>
-					<th>yPos</th>
-					<th>zPos</th>
-					<th>tile.id</th>
-					<th>tile.matchesWholeSuit</th>
-					<th>tile.name</th>
-					<th>tile.suit</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr ng-repeat="tile in gc.GameFactory.tiles">
-					<td>{{ tile.xPos }}</td>
-					<td>{{ tile.yPos }}</td>
-					<td>{{ tile.zPos }}</td>
-					<td>{{ tile.tile.id }}</td>
-					<td>{{ tile.tile.matchesWholeSuit }}</td>
-					<td>{{ tile.tile.name }}</td>
-					<td>{{ tile.tile.suit }}</td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-
 	<script src="app.js"></script>
-	</body>
+</head>
 
+<body ng-app="Mahjong">
+
+<!-- NAVIGATION -->
+<nav class="navbar navbar-inverse" role="navigation">
+	<div class="navbar-header">
+		<a class="navbar-brand" ui-sref="#">Mahjong Mayhem</a>
+	</div>
+	<ul class="nav navbar-nav">
+		<li><a ui-sref="home">Home</a></li>
+		<li><a ui-sref="games">Games</a></li>
+	</ul>
+</nav>
+
+<div class="container">
+	<div ui-view></div>
+</div>
+
+
+</body>
 </html>

@@ -13,6 +13,6 @@ app.config(function ($routeProvider)
 		})
 		.when('/test',
 		{
-			template: 'views/test.html'
+			template: 'Views/test.html'
 		})
 });
