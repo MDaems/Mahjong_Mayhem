@@ -5,15 +5,14 @@ require('angular-ui-router');
 var app = angular.module('Mahjong', ['ui.router']);
 
 var gameFactory = require('./Factories/GameFactory');
-var gameController = require('./Controllers/GameController');
-
-var playerController = require('./Controllers/PlayerController');
-
 app.factory('GameFactory', gameFactory);
+var gameController = require('./Controllers/GameController');
 app.controller('GameController',  gameController);
 
+var playerController = require('./Controllers/PlayerController');
 app.controller('PlayerController',  playerController);
 
+var authService = require("./Services/AuthService");
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -41,4 +40,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: './Views/board.html',
             controller: 'GameController as gc'
         })
+});
+
+app.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('AuthService');
 });
