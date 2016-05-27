@@ -71,12 +71,12 @@ module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
 	};
 
 	self.getLeft = function(tileobject) {
-		var value = Number(tileobject.xPos) * 73 + 2 * Number(tileobject.zPos);
+		var value = (Number(tileobject.xPos) * 73 + 10 * Number(tileobject.zPos))/2;
 		return value + 'px';
 	};
 
 	self.getTop = function(tileobject) {
-		var value = Number(tileobject.yPos) * 90 + 2 * Number(tileobject.zPos);
+		var value = ((Number(tileobject.yPos) * 90) + (10 * Number(tileobject.zPos)))/2;
 		return value + 'px';
 	};
 
