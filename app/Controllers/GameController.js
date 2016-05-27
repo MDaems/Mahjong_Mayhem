@@ -59,13 +59,25 @@ module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
 			url: 'https://mahjongmayhem.herokuapp.com/games/' + game.id + '/tiles'
 		}).then(function successCallback(response) {
 			angular.forEach(response.data, function(tile) {
-
-				self.GameFactory.addTile(tile);
+				var temp_tile = tile;
+				temp_tile.left = self.getLeft(tile);
+				temp_tile.top = self.getTop(tile);
+				self.GameFactory.addTile(temp_tile);
 			});
 		}, function errorCallback(response) {
 		});
 
 		self.getMatchedTiles(game);
+	};
+
+	self.getLeft = function(tileobject) {
+		var value = Number(tileobject.xPos) * 73 + 2 * Number(tileobject.zPos);
+		return value + 'px';
+	};
+
+	self.getTop = function(tileobject) {
+		var value = Number(tileobject.yPos) * 90 + 2 * Number(tileobject.zPos);
+		return value + 'px';
 	};
 
 	self.getMatchedTiles = function(game){
