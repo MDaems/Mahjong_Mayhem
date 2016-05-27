@@ -1,41 +1,10 @@
 <div class="jumbotron text-center">
-    <h1>Board</h1>
-
-    <div style="float:left; margin-left:50px; width:500px;">
-    <h1>Tiles</h1>
-
-    <table ng-if="gc.getRows() != undefined">
-        <tbody>
-        <tr ng-repeat="row in gc.getRows()">
-            <td>{{ row }} :</td>
-            <td ng-repeat="column in gc.getColumns()">{{ column }}</td>
-        </tr>
-        </tbody>
-    </table>
-
-    <table>
-        <thead>
-        <tr>
-            <th>xPos</th>
-            <th>yPos</th>
-            <th>zPos</th>
-            <th>tile.id</th>
-            <th>tile.matchesWholeSuit</th>
-            <th>tile.name</th>
-            <th>tile.suit</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="tile in gc.GameFactory.tiles">
-            <td>{{ tile.xPos }}</td>
-            <td>{{ tile.yPos }}</td>
-            <td>{{ tile.zPos }}</td>
-            <td>{{ tile.tile.id }}</td>
-            <td>{{ tile.tile.matchesWholeSuit }}</td>
-            <td>{{ tile.tile.name }}</td>
-            <td>{{ tile.tile.suit }}</td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+    <div>
+		<div
+			ng-repeat="tileobject in gc.GameFactory.tiles"
+			class="sprite sprite-{{tileobject.tile.suit + tileobject.tile.name | lowercase}}"
+			z-index="{{ tileobject.zPos }}"
+		>
+		</div>
+	</div>
 </div>
