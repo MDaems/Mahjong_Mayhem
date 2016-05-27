@@ -1,14 +1,8 @@
 module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
 
     var self = this;
-
-
     self.GameFactory = GameFactory;
-
 	self.me = {};
-
-	//console.log($routeParams);
-
 
     $http({
         method: 'GET',
@@ -45,17 +39,12 @@ module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
 	self.join = function(game) {
 		$http({
 			method: 'POST',
-			url: 'http://mahjongmayhem.herokuapp.com/Games/' + game._id + '/Players',
-			headers: {'token': window.localStorage['token'], 'username': window.localStorage['username']}
-		}).then(function successCallback(response) {
-			self.GameFactory.join(game, self.me);
+			url: 'http://mahjongmayhem.herokuapp.com/Games/' + game.id + '/Players',
+			}).then(function successCallback(response) {
+			console.log(response.data);
+			//self.GameFactory.join(game, self.me);
 		},function errorCallback(response) {
 		});
-
-
-		//TODO:: na het inloggen moet de onderstaande regel vervangen worden door ^ deze code
-		//console.log(window.localStorage['token']);
-		//self.GameFactory.join(game, self.me);
 	};
 
 	self.allowedToSeeTiles = function(game)
@@ -64,6 +53,7 @@ module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
 	};
 
 	self.getTiles = function(game) {
+		self.GameFactory.tiles= [];
 		$http({
 			method: 'GET',
 			url: 'https://mahjongmayhem.herokuapp.com/games/' + game.id + '/tiles'
@@ -74,7 +64,26 @@ module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
 			});
 		}, function errorCallback(response) {
 		});
+
+		self.getMatchedTiles(game);
 	};
+
+	self.getMatchedTiles = function(game){
+		self.GameFactory.matches= [];
+		$http({
+			method: 'GET',
+			url: 'http://mahjongmayhem.herokuapp.com/Games/' + game.id + '/Tiles/matches',
+		}).then(function successCallback(response) {
+			angular.forEach(response.data, function(row) {
+				var match = {
+					"tile":row.tile,
+					"player":row.match
+				}
+				self.GameFactory.addMatch(match);
+			});
+		}, function errorCallback(response) {
+		});
+	}
 
 	self.getMaxRow = function() {
 		var maxRow = [];
@@ -105,5 +114,4 @@ module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
 		return maxColumn;
 
 	}
-
 };
