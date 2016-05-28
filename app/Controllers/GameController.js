@@ -3,6 +3,7 @@ module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
     var self = this;
     self.GameFactory = GameFactory;
 	self.me = {};
+	self.selectedGame = null;
 
     $http({
         method: 'GET',
@@ -14,6 +15,19 @@ module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
         });
     }, function errorCallback(response) {
     });
+
+	self.addGame = function(game){
+		$http({
+			method: 'POST',
+			url: 'http://mahjongmayhem.herokuapp.com/Games/',
+			data: game,
+			dataType: "json",
+		}).then(function successCallback(response) {
+			console.log(response.data);
+			//self.GameFactory.join(game, self.me);
+		},function errorCallback(response) {
+		});
+	}
 
 	self.isLoggedIn = function()
 	{
@@ -124,6 +138,13 @@ module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
 		maxColumn.sort(function(a,b){return a - b});
 
 		return maxColumn;
+	}
 
+	self.setSelected = function(game) {
+		selectedGame = game;
+	}
+
+	self.getPlayersInGame = function() {
+		return selectedGame.players;
 	}
 };

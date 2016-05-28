@@ -4,6 +4,10 @@ require('angular-ui-router');
 // Create your app
 var app = angular.module('Mahjong', ['ui.router']);
 
+var homeController = require('./Controllers/HomeController');
+app.controller('HomeController',  homeController);
+
+
 var gameFactory = require('./Factories/GameFactory');
 app.factory('GameFactory', gameFactory);
 var gameController = require('./Controllers/GameController');
@@ -20,7 +24,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('home', {
             url: '/home',
-            templateUrl: './Views/test.html'
+            templateUrl: './Views/home.html'
         })
 
         .state('authcallback', {
@@ -29,9 +33,27 @@ app.config(function($stateProvider, $urlRouterProvider) {
             controller  : 'PlayerController as pCtrl'
         })
 
+        .state('profile', {
+            url: '/profile',
+            templateUrl: './Views/player.html',
+            controller  : 'PlayerController as pCtrl'
+        })
+
+        .state('createGame', {
+            url: '/createGame',
+            templateUrl: './Views/createGame.html',
+            controller: 'GameController as gc'
+        })
+
         .state('games', {
             url: '/games',
             templateUrl: './Views/games.html',
+            controller: 'GameController as gc'
+        })
+
+        .state('gamePlayers', {
+            url: '/gamePlayers',
+            templateUrl: './Views/gamePlayers.html',
             controller: 'GameController as gc'
         })
 

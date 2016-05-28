@@ -14,7 +14,6 @@
         <button type="button" class="btn btn-primary" ng-click="myFilter={state:'finished'}">Finished</button>
     </div>
 
-
     <table class="table table-striped">
         <thead>
         <tr>
@@ -31,7 +30,7 @@
             <td>{{ game.id }}</td>
             <td>{{ game.minPlayers }}</td>
             <td>{{ game.maxPlayers }}</td>
-            <td>{{ game.players.length }}</td>
+            <td><a ui-sref="gamePlayers" href ng-click="gc.setSelected(game)"> {{ game.players.length }}</a></td>
             <td>{{ game.state }}</td>
             <td>
                 <button ng-if="gc.canJoin(game)" ng-click="gc.join(game)">Join</button>
