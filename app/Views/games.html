@@ -1,6 +1,11 @@
 <div class="jumbotron text-center">
     <h1>Games</h1>
-
+    <div class="alert alert-success" ng-if="gc.succesMessage != ''">
+        {{ gc.succesMessage }}
+    </div>
+    <div class="alert alert-danger"  ng-if="gc.errorMessage != ''">
+        {{ gc.errorMessage }}
+    </div>
     <div class="btn-group" role="group">
         <button type="button" class="btn btn-primary" ng-click="myFilter={state:''}">All</button>
     </div>
@@ -34,7 +39,7 @@
             <td>{{ game.state }}</td>
             <td>
                 <button ng-if="gc.canJoin(game)" ng-click="gc.join(game)">Join</button>
-                <button ui-sref="board"  ng-if="gc.allowedToSeeTiles(game)" ng-click="gc.getTiles(game)">Play</button>
+                <button ui-sref="board"  ng-if="gc.allowedToSeeGame(game)" ng-click="gc.getGameDetails(game)">Play</button>
             </td>
         </tr>
         </tbody>

@@ -1,9 +1,12 @@
-module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
+module.exports = function($scope, $http, $timeout, GameFactory){//}, $routeParams) {
 
     var self = this;
     self.GameFactory = GameFactory;
 	self.me = {};
 	self.selectedGame = null;
+
+	self.succesMessage = '';
+	self.errorMessage = '';
 
     $http({
         method: 'GET',
@@ -23,16 +26,13 @@ module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
 			data: game,
 			dataType: "json",
 		}).then(function successCallback(response) {
-			console.log(response.data);
-			//self.GameFactory.join(game, self.me);
-		},function errorCallback(response) {
+			self.succesMessage = 'Successfully added game';
+			self.showMessageBox();
+		},function errorCallback(err) {
+			self.errorMessage = err.statusText;
+			self.showMessageBox();
 		});
 	}
-
-	self.isLoggedIn = function()
-	{
-		return self.me.name != undefined;
-	};
 
 	self.canJoin = function(game) {
 		if(game.state != 'open' || game.maxPlayers <= game.players.length) {
@@ -55,18 +55,24 @@ module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
 			method: 'POST',
 			url: 'http://mahjongmayhem.herokuapp.com/Games/' + game.id + '/Players',
 			}).then(function successCallback(response) {
-			console.log(response.data);
-			//self.GameFactory.join(game, self.me);
-		},function errorCallback(response) {
+			console.log(response);
+			self.succesMessage = 'Successfully joined game';
+			self.showMessageBox();
+		},function errorCallback(err) {
+			self.errorMessage = err.statusText;
+			self.showMessageBox();
 		});
 	};
 
-	self.allowedToSeeTiles = function(game)
+
+
+	self.allowedToSeeGame = function(game)
 	{
 		return game.state != 'open';
 	};
 
-	self.getTiles = function(game) {
+	self.getGameDetails = function(game) {
+		console.log('Open Game');
 		self.GameFactory.tiles= [];
 		$http({
 			method: 'GET',
@@ -79,6 +85,8 @@ module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
 				self.GameFactory.addTile(temp_tile);
 			});
 		}, function errorCallback(response) {
+			self.errorMessage = response.data.message;
+			self.showMessageBox();
 		});
 
 		self.getMatchedTiles(game);
@@ -111,35 +119,6 @@ module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
 		});
 	}
 
-	self.getMaxRow = function() {
-		var maxRow = [];
-		for(var i = 0; i < self.GameFactory.tiles.length; i++)
-		{
-			if(maxRow != undefined)
-			{
-				maxRow.push(Number(self.GameFactory.tiles[i].xPos));
-			}
-		}
-		maxRow.sort(function(a,b){return a - b});
-
-		return maxRow;
-	};
-
-	self.getColumns = function()
-	{
-		var maxColumn = [];
-		for(var i = 0; i < self.GameFactory.tiles.length; i++)
-		{
-			if(maxColumn.indexOf(self.GameFactory.tiles[i].yPos) == -1)
-			{
-				maxColumn.push(Number(self.GameFactory.tiles[i].yPos));
-			}
-		}
-		maxColumn.sort(function(a,b){return a - b});
-
-		return maxColumn;
-	}
-
 	self.setSelected = function(game) {
 		selectedGame = game;
 	}
@@ -147,4 +126,13 @@ module.exports = function($scope, $http, GameFactory){//}, $routeParams) {
 	self.getPlayersInGame = function() {
 		return selectedGame.players;
 	}
+
+	self.showMessageBox = function()
+	{
+		self.showMessage = true;
+		$timeout(function(){
+			self.succesMessage = '';
+			self.errorMessage = '';
+		}, 3000);
+	};
 };

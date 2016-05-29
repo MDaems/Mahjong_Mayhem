@@ -1,22 +1,5 @@
 <div class="jumbotron text-center">
     <h1 style="padding-bottom: 20px;">Create Game</h1>
-
-<!--
-    Template:
-    <select ng-model="gc.game.templateName" style="width: 180px">
-        <option value="Ox">Ox</option>
-        <option value="Ram">Ram</option>
-        <option value="Dragon">Dragon</option>
-    </select>
-
-    Maxplayers:
-    <input type="text" ng-model="gc.game.maxPlayers">
-
-    Minplayers
-    <input type="text" ng-model="gc.game.minPlayers">
-
-    <input type="submit" ng-click="gc.addGame(gc.game)" value="Create" style="width: 180px">
--->
     <table>
         <tr>
             <th>Template:</th>
@@ -37,4 +20,12 @@
             <td>  <input type="submit" ng-click="gc.addGame(gc.game)" value="Create" style="width: 180px"></td>
         </tr>
     </table>
+    </div>
+</br>
+    <div class="alert alert-success" ng-if="gc.succesMessage != ''">
+        {{ gc.succesMessage }}
+    </div>
+    <div class="alert alert-danger" ng-if="gc.errorMessage != ''">
+        {{ gc.errorMessage }}
+    </div>
 </div>
