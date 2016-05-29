@@ -8,6 +8,17 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 	self.succesMessage = '';
 	self.errorMessage = '';
 
+	self.tabData   = [
+		{
+			heading: 'Board',
+			route:   'game.board'
+		},
+		{
+			heading: 'Details',
+			route:   'game.gamePlayers',
+			disable: true
+		}
+	];
 
 	getGames();
 	function getGames(){

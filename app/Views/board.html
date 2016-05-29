@@ -1,0 +1,13 @@
+<div class="jumbotron text-center">
+    <div style="position:absolute; left:10px; top:100px;">
+		<div
+			style="position:absolute;"
+			ng-repeat="tileobject in gc.GameFactory.tiles"
+			ng-if="tileobject.match.foundBy == undefined"
+			class="sprite sprite-{{tileobject.tile.suit + tileobject.tile.name | lowercase}}"
+			z-index="{{ tileobject.zPos }}"
+			ng-style="{'left': tileobject.left, 'top': tileobject.top}"
+		>
+		</div>
+	</div>
+</div>

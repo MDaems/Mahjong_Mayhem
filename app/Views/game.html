@@ -1,13 +1,12 @@
 <div class="jumbotron text-center">
-    <div style="position:absolute; left:10px; top:100px;">
-		<div
-			style="position:absolute;"
-			ng-repeat="tileobject in gc.GameFactory.tiles"
-			ng-if="tileobject.match.foundBy == undefined"
-			class="sprite sprite-{{tileobject.tile.suit + tileobject.tile.name | lowercase}}"
-			z-index="{{ tileobject.zPos }}"
-			ng-style="{'left': tileobject.left, 'top': tileobject.top}"
-		>
-		</div>
-	</div>
+	<tabs data="gc.tabData" type="tabs">Tabs</tabs>
+	<div ui-view></div>
+
+<!--	<table class="table table-striped">
+		<tbody>
+		<tr ng-repeat="tab in gc.tabData">
+			<td>{{ tab.heading }}</td>
+		</tr>
+		</tbody>
+	</table>-->
 </div>
