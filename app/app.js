@@ -1,23 +1,14 @@
 require("angular/angular");
 require('angular-ui-router');
 
+require('./Modules/HomeModule');
+require('./Modules/GameModule');
+require('./Modules/PlayerModule');
+
 // Create your app
-var app = angular.module('Mahjong', ['ui.router']);
-
-var homeController = require('./Controllers/HomeController');
-app.controller('HomeController',  homeController);
-
-
-var gameFactory = require('./Factories/GameFactory');
-app.factory('GameFactory', gameFactory);
-var gameController = require('./Controllers/GameController');
-app.controller('GameController',  gameController);
-
-var playerController = require('./Controllers/PlayerController');
-app.controller('PlayerController',  playerController);
+var app = angular.module('Mahjong', ['ui.router', 'mahjong.game', 'mahjong.player', 'mahjong.home']);
 
 var authService = require("./Services/AuthService");
-
 app.config(function($stateProvider, $urlRouterProvider) {
 
     $urlRouterProvider.otherwise('/home');
@@ -57,9 +48,9 @@ app.config(function($stateProvider, $urlRouterProvider) {
             controller: 'GameController as gc'
         })
 
-        .state('board', {
-            url: '/board',
-            templateUrl: './Views/board.html',
+        .state('game', {
+            url: '/game',
+            templateUrl: './Views/game.html',
             controller: 'GameController as gc'
         })
 });

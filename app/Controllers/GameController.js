@@ -1,4 +1,4 @@
-module.exports = function($scope, $http, $timeout, GameFactory){//}, $routeParams) {
+module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}, $routeParams) {
 
     var self = this;
     self.GameFactory = GameFactory;
@@ -8,24 +8,23 @@ module.exports = function($scope, $http, $timeout, GameFactory){//}, $routeParam
 	self.succesMessage = '';
 	self.errorMessage = '';
 
-    $http({
-        method: 'GET',
-        url: 'http://mahjongmayhem.herokuapp.com/Games'
-    }).then(function successCallback(response) {
-        angular.forEach(response.data, function(game) {
 
-			self.GameFactory.addGame(game);
-        });
-    }, function errorCallback(response) {
-    });
+	getGames();
+	function getGames(){
+		GameService.getGames()
+			.then(function successCallback(response) {
+				angular.forEach(response, function(game) {
+					self.GameFactory.addGame(game);
+				});
+			}, function errorCallback(err) {
+				self.errorMessage = err.statusText;
+				self.showMessageBox();
+			});
+	}
 
 	self.addGame = function(game){
-		$http({
-			method: 'POST',
-			url: 'http://mahjongmayhem.herokuapp.com/Games/',
-			data: game,
-			dataType: "json",
-		}).then(function successCallback(response) {
+		GameService.addGame(game)
+			.then(function successCallback(response) {
 			self.succesMessage = 'Successfully added game';
 			self.showMessageBox();
 		},function errorCallback(err) {
@@ -33,6 +32,7 @@ module.exports = function($scope, $http, $timeout, GameFactory){//}, $routeParam
 			self.showMessageBox();
 		});
 	}
+
 
 	self.canJoin = function(game) {
 		if(game.state != 'open' || game.maxPlayers <= game.players.length) {
@@ -50,12 +50,9 @@ module.exports = function($scope, $http, $timeout, GameFactory){//}, $routeParam
 		}
 	};
 
-	self.join = function(game) {
-		$http({
-			method: 'POST',
-			url: 'http://mahjongmayhem.herokuapp.com/Games/' + game.id + '/Players',
-			}).then(function successCallback(response) {
-			console.log(response);
+	self.joinGame = function(game) {
+		GameService.joinGame(game)
+			.then(function successCallback(response) {
 			self.succesMessage = 'Successfully joined game';
 			self.showMessageBox();
 		},function errorCallback(err) {
@@ -64,21 +61,11 @@ module.exports = function($scope, $http, $timeout, GameFactory){//}, $routeParam
 		});
 	};
 
-
-
-	self.allowedToSeeGame = function(game)
-	{
-		return game.state != 'open';
-	};
-
 	self.getGameDetails = function(game) {
-		console.log('Open Game');
 		self.GameFactory.tiles= [];
-		$http({
-			method: 'GET',
-			url: 'https://mahjongmayhem.herokuapp.com/games/' + game.id + '/tiles'
-		}).then(function successCallback(response) {
-			angular.forEach(response.data, function(tile) {
+		GameService.getGameDetails(game)
+			.then(function successCallback(response) {
+			angular.forEach(response, function(tile) {
 				var temp_tile = tile;
 				temp_tile.left = self.getLeft(tile);
 				temp_tile.top = self.getTop(tile);
@@ -88,9 +75,23 @@ module.exports = function($scope, $http, $timeout, GameFactory){//}, $routeParam
 			self.errorMessage = response.data.message;
 			self.showMessageBox();
 		});
-
 		self.getMatchedTiles(game);
 	};
+
+	self.getMatchedTiles = function(game){
+		self.GameFactory.matches= [];
+		GameService.getMatchedTiles(game)
+			.then(function successCallback(response) {
+			angular.forEach(response, function(row) {
+				var match = {
+					"tile":row.tile,
+					"player":row.match
+				}
+				self.GameFactory.addMatch(match);
+			});
+		}, function errorCallback(response) {
+		});
+	}
 
 	self.getLeft = function(tileobject) {
 		var value = (Number(tileobject.xPos) * 73 + 10 * Number(tileobject.zPos))/2;
@@ -102,23 +103,6 @@ module.exports = function($scope, $http, $timeout, GameFactory){//}, $routeParam
 		return value + 'px';
 	};
 
-	self.getMatchedTiles = function(game){
-		self.GameFactory.matches= [];
-		$http({
-			method: 'GET',
-			url: 'http://mahjongmayhem.herokuapp.com/Games/' + game.id + '/Tiles/matches',
-		}).then(function successCallback(response) {
-			angular.forEach(response.data, function(row) {
-				var match = {
-					"tile":row.tile,
-					"player":row.match
-				}
-				self.GameFactory.addMatch(match);
-			});
-		}, function errorCallback(response) {
-		});
-	}
-
 	self.setSelected = function(game) {
 		selectedGame = game;
 	}
@@ -129,7 +113,6 @@ module.exports = function($scope, $http, $timeout, GameFactory){//}, $routeParam
 
 	self.showMessageBox = function()
 	{
-		self.showMessage = true;
 		$timeout(function(){
 			self.succesMessage = '';
 			self.errorMessage = '';
