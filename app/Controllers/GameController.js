@@ -4,6 +4,7 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
     self.GameFactory = GameFactory;
 	self.me = {};
 	self.selectedGame = null;
+	self.currentUser = window.localStorage['username'];
 
 	self.succesMessage = '';
 	self.errorMessage = '';
@@ -34,6 +35,7 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 	}
 
 	self.addGame = function(game){
+		console.log(game);
 		GameService.addGame(game)
 			.then(function successCallback(response) {
 			self.succesMessage = 'Successfully added game';
@@ -73,8 +75,9 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 	};
 
 	self.getGameDetails = function(game) {
+		//Board
 		self.GameFactory.tiles= [];
-		GameService.getGameDetails(game)
+		GameService.getGameBoard(game)
 			.then(function successCallback(response) {
 			angular.forEach(response, function(tile) {
 				var temp_tile = tile;
@@ -86,7 +89,10 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 			self.errorMessage = response.data.message;
 			self.showMessageBox();
 		});
+
+		//Details
 		self.getMatchedTiles(game);
+		selectedGame = game;
 	};
 
 	self.getMatchedTiles = function(game){
@@ -103,6 +109,7 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 		}, function errorCallback(response) {
 		});
 	}
+
 
 	self.getLeft = function(tileobject) {
 		var value = (Number(tileobject.xPos) * 73 + 10 * Number(tileobject.zPos))/2;

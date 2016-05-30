@@ -5,6 +5,7 @@ module.exports = function() {
     factory.games = [];
 	factory.tiles = [];
 	factory.matches = [];
+	factory.players = [];
 
 	factory.addGame = function(game) {
 		factory.games.push({

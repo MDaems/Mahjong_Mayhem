@@ -19,9 +19,8 @@
         <button type="button" class="btn btn-primary" ng-click="myFilter={state:'finished'}">Finished</button>
     </div>
     <div class="btn-group" role="group">
-        <button type="button" class="btn btn-primary" ng-click="myFilter={createdBy: {_id: 'mha.daems@student.avans.nl'}}">MyGames</button>
+        <button type="button" class="btn btn-primary" ng-click="myFilter={players: {_id: gc.currentUser}}">MyGames</button>
     </div>
-
     <table class="table table-striped">
         <thead>
         <tr>
@@ -42,7 +41,7 @@
             <td>{{ game.state }}</td>
             <td>
                 <button ng-if="gc.canJoin(game)" ng-click="gc.joinGame(game)">Join</button>
-                <button ui-sref="game"  ng-if="game.state != 'open' " ng-click="gc.getGameDetails(game)">Play</button>
+                <button ui-sref="game"  ng-if="game.state != 'open'" ng-click="gc.getGameDetails(game)">Play</button>
             </td>
         </tr>
         </tbody>
