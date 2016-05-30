@@ -7,7 +7,13 @@ module.exports = function() {
 	factory.matches = [];
 
 	factory.addGame = function(game) {
-		factory.games.push({id: game._id, minPlayers: game.minPlayers, maxPlayers: game.maxPlayers, players: game.players, state: game.state});
+		factory.games.push({
+			id: game._id,
+			minPlayers: game.minPlayers,
+			maxPlayers: game.maxPlayers,
+			players: game.players,
+			state: game.state,
+			createdBy: game.createdBy});
 	};
 
 	factory.addTile = function(tile) {

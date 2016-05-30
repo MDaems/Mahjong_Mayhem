@@ -18,11 +18,14 @@
     <div class="btn-group" role="group">
         <button type="button" class="btn btn-primary" ng-click="myFilter={state:'finished'}">Finished</button>
     </div>
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-primary" ng-click="myFilter={createdBy: {_id: 'mha.daems@student.avans.nl'}}">MyGames</button>
+    </div>
 
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>GameId</th>
+            <th>Gemaakt door:</th>
             <th>Min spelers</th>
             <th>Max spelers</th>
             <th>Spelers</th>
@@ -32,7 +35,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="game in gc.GameFactory.games | filter: myFilter">
-            <td>{{ game.id }}</td>
+            <td>{{ game.createdBy.name }}</td>
             <td>{{ game.minPlayers }}</td>
             <td>{{ game.maxPlayers }}</td>
             <td><a ui-sref="gamePlayers" href ng-click="gc.setSelected(game)"> {{ game.players.length }}</a></td>
