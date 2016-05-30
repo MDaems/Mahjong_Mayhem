@@ -1,12 +1,9 @@
 <div class="jumbotron text-center">
-	<tabs data="gc.tabData" type="tabs">Tabs</tabs>
+	<nav class="navbar navbar-inverse" role="navigation">
+		<ul class="nav navbar-nav">
+			<li><a ui-sref=".board">Board</a></li>
+			<li><a ui-sref=".detail">Details</a></li>
+		</ul>
+	</nav>
 	<div ui-view></div>
-
-<!--	<table class="table table-striped">
-		<tbody>
-		<tr ng-repeat="tab in gc.tabData">
-			<td>{{ tab.heading }}</td>
-		</tr>
-		</tbody>
-	</table>-->
 </div>

@@ -1,0 +1,32 @@
+<div class="jumbotron text-center">
+    <h1>Players in Game</h1>
+    <table class="table table-striped">
+        <tbody>
+            <td>{{ player._id }}</td>
+            <td>{{ player.name }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h1>Matches</h1>
+    <div class="row">
+        <div class="col col-25">
+            <label class="item item-input">
+                <span class="input-label icon-left">Search</span>
+            </label>
+        </div>
+        <div class="col">
+            <label class="item item-input">
+                <input type="text" ng-model="searchText">
+            </label>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <tbody>
+        <tr ng-repeat="match in gc.GameFactory.matches | filter:searchText">
+            <td><div class="tile {{match.tile.suit}}{{match.tile.name}}"></div>{{match.tile.id}}</td>
+            <td>{{match.player.foundBy}}</br>{{match.player.foundOn}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

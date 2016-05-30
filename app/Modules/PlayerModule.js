@@ -1,3 +1,5 @@
+require("angular/angular");
+
 var playerModule = angular.module('mahjong.player', []);
 
 var playerController = require('../Controllers/PlayerController');

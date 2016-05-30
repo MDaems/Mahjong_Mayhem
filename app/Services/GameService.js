@@ -31,7 +31,7 @@ module.exports = function($http){
         });
     };
 
-    service.getGameDetails = function (game) {
+    service.getGameBoard = function (game) {
         return $http({
             method: 'GET',
             url: urlBase+'/games/' + game.id + '/tiles'

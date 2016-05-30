@@ -1,3 +1,5 @@
+require("angular/angular");
+
 var gameModule = angular.module('mahjong.game', []);
 
 var gameFactory = require('../Factories/GameFactory');

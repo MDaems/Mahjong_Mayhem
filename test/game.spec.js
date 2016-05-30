@@ -13,20 +13,81 @@ describe("GameController", function() {
         // The scope for the controller
         scope = $rootScope.$new();
         // Get the service which will be injected
-        gameService = $injector.get('GameController');
+        gameService = $injector.get('GameService');
         // For mocking the backend
         httpBackend = $httpBackend;
-
-        // Stubbing with sinon
-        gameService.sayHello = sinon.stub();
-        gameService.sayHello.withArgs('Martijn').returns('Stub says hi Martijn');
-        gameService.sayHello.returns('Hi from stub');
 
         // This is the controller we're going to test
         gameController = $controller('GameController', { $scope: scope });
     }));
 
-    it('should mock the httpbackend', function(){
+    describe('canJoin', function(){
+        it('should return false when already full', function(){
+            // Given
+            var game = {
+                players: [
+                    {
+                        _id: "mha.daems@student.avans.nl",
+                        name: "Micky Daems",
+                        __v: 0
+                    }
+                ],
+                maxPlayers: 5,
+                minPlayers: 2,
+                players: [ {} , {}, {}, {}, {}],
+                state: "open",
+            }
+
+            // When
+            canJoin = gameController.canJoin(game);
+
+            // Then
+            expect(canJoin).to.equal(false);
+
+        });
+
+        it('should return false when already not open', function(){
+            // Given
+            var game = {
+                players: [
+                    {
+                        _id: "mha.daems@student.avans.nl",
+                        name: "Micky Daems",
+                        __v: 0
+                    }
+                ],
+                maxPlayers: 5,
+                minPlayers: 2,
+                state: "closed",
+            }
+
+            // When
+            canJoin = gameController.canJoin(game);
+
+            // Then
+            expect(canJoin).to.equal(false);
+        });
+    })
+
+    /* it('should save game', function(){
+         // Given
+         var game = {templateName: "Ram", maxPlayers: "5", minPlayers: "2"}
+         var expectedError = 'Created';
+
+         httpBackend
+             .expectPOST('http://mahjongmayhem.herokuapp.com/Games', game )
+             .respond(201, { err: expectedError });
+
+
+         // When
+         gameController.addGame(game);
+         httpBackend.flush(); // Voer synchroon uit ipv asynchroon
+
+         // Then
+         expect(scope.error).to.equal(expectedError);
+     });*/
+
+ /*   it('should mock the httpbackend', function(){
         // Given
         var game = gameService.games[0];
         var expectedCode = 'WEBS6';
@@ -44,5 +105,5 @@ describe("GameController", function() {
         // Then
         expect(scope.error).to.equal(expectedError);
         expect(person.courses).to.have.length(0);
-    });
+    });*/
 });

@@ -5,6 +5,12 @@ require('./Modules/HomeModule');
 require('./Modules/GameModule');
 require('./Modules/PlayerModule');
 
-require('./routes.js');
+var app = angular.module('Mahjong', ['ui.router',  'mahjong.game', 'mahjong.player', 'mahjong.home']);
 
-var authService = require("./Services/AuthService");
+
+require('./routes.js')(app);
+require("./Services/AuthService")(app);
+
+//var authService = require("./Services/AuthService")();
+//require("./Services/AuthService")
+//app.config(require("./Services/AuthService"));
