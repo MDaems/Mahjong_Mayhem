@@ -48,7 +48,6 @@ module.exports = function($http){
             return response.data;
         });
     };
-
-
+    
 	return service;
 };

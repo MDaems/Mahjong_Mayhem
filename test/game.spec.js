@@ -62,10 +62,32 @@ describe("GameController", function() {
             }
 
             // When
-            canJoin = gameController.canJoin(game);
+            canJoin = gameController.canJoinGame(game);
 
             // Then
             expect(canJoin).to.equal(false);
+        });
+
+        it('should return true when game is open and not full ', function(){
+            // Given
+            var game = {
+                players: [
+                    {
+                        _id: "mha.daems@student.avans.nl",
+                        name: "Micky Daems",
+                        __v: 0
+                    }
+                ],
+                maxPlayers: 5,
+                minPlayers: 2,
+                state: "open",
+            }
+
+            // When
+            canJoin = gameController.canJoinGame(game);
+
+            // Then
+            expect(canJoin).to.equal(true);
         });
     })
 

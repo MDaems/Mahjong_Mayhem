@@ -9,19 +9,8 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 	self.succesMessage = '';
 	self.errorMessage = '';
 
-	self.tabData   = [
-		{
-			heading: 'Board',
-			route:   'game.board'
-		},
-		{
-			heading: 'Details',
-			route:   'game.gamePlayers',
-			disable: true
-		}
-	];
-
 	getGames();
+
 	function getGames(){
 		GameService.getGames()
 			.then(function successCallback(response) {
@@ -47,7 +36,7 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 	}
 
 
-	self.canJoin = function(game) {
+	self.canJoinGame = function(game) {
 		if(game.state != 'open' || game.maxPlayers <= game.players.length) {
 			return false;
 		}
@@ -123,10 +112,6 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 
 	self.setSelected = function(game) {
 		selectedGame = game;
-	}
-
-	self.getPlayersInGame = function() {
-		return selectedGame.players;
 	}
 
 	self.showMessageBox = function()
