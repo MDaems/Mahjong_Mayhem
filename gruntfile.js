@@ -2,6 +2,16 @@ module.exports = function(grunt)
 {
   grunt.initConfig(
   {
+    sass: {
+      dist: {
+        options: {
+          style: "expanded"
+        },
+        files: {
+          "dist/css/app.css": "app/css/app.scss"
+        }
+      }
+    },
     browserify:
     {
       all:
@@ -64,7 +74,9 @@ module.exports = function(grunt)
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-http-server");
+  grunt.loadNpmTasks("grunt-contrib-sass");
 
   // The default tasks to run when you type: 'grunt'.
-  grunt.registerTask("default", ["browserify", "copy", "http-server", "watch"]);
+  grunt.registerTask("default", ["browserify", "copy", "http-server", "watch", "sass"]);/*
+  grunt.registerTask("default", ["browserify", "copy", "copy", "sass"]);*/
 };
