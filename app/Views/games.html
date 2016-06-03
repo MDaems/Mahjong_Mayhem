@@ -1,4 +1,4 @@
-<div class="jumbotron text-center">
+<div class="text-center">
     <h1>Games</h1>
     <div class="alert alert-success" ng-if="gc.succesMessage != ''">
         {{ gc.succesMessage }}
@@ -19,7 +19,7 @@
         <button type="button" class="btn btn-primary" ng-click="myFilter={state:'finished'}">Finished</button>
     </div>
     <div class="btn-group" role="group">
-        <button type="button" class="btn btn-primary" ng-click="myFilter={players: {_id: gc.currentUser}}">MyGames</button>
+        <button type="button"  class="btn btn-primary" ng-click="myFilter={players: {_id: gc.currentUser}}">MyGames ({{gc.currentUser}})</button>
     </div>
     <table class="table table-striped">
         <thead>
@@ -37,12 +37,12 @@
             <td>{{ game.createdBy.name }}</td>
             <td>{{ game.minPlayers }}</td>
             <td>{{ game.maxPlayers }}</td>
-            <td><a ui-sref="gamePlayers" href ng-click="gc.setSelected(game)"> {{ game.players.length }}</a></td>
+            <td><a ui-sref="gameDetails" href ng-click="gc.getGameDetails(game)"> {{ game.players.length }}</a></td>
             <td>{{ game.state }}</td>
             <td>
-                <button ng-if="gc.canJoinGame(game)" ng-click="gc.joinGame(game)">Join</button>
-                <button ui-sref="game"  ng-if="game.state != 'open'" ng-click="gc.getGameDetails(game)">Play</button>
-                <button ng-if="gc.canStartGame(game)" ng-click="gc.startGame(game)">Start</button>
+                <button class="btn btn-warning" ng-if="gc.canJoinGame(game)" ng-click="gc.joinGame(game)">Join</button>
+                <button class="btn btn-info" ui-sref="game.board"  ng-if="game.state != 'open'" ng-click="gc.getGameDetails(game)">Play</button>
+                <button class="btn btn-success" ng-if="gc.canStartGame(game)" ng-click="gc.startGame(game)">Start</button>
             </td>
         </tr>
         </tbody>

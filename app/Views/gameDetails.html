@@ -1,9 +1,9 @@
-<div class="jumbotron text-center">
+<div class="text-center">
     <div style="float: left;">
-    <h1>Players in Game</h1>
+    <h3>Players in Game</h3>
         <table class="table table-striped">
             <tbody>
-            <tr ng-repeat="player in gc.selectedGame.players">
+            <tr ng-repeat="player in gc.GameFactory.players">
                 <td>{{ player._id }}</td>
                 <td>{{ player.name }}</td>
             </tr>
@@ -11,13 +11,8 @@
         </table>
     </div>
     <div style="float: right;">
-        <h1>Matches</h1>
+        <h3>Matches</h3>
         <div class="row">
-            <div class="col col-25">
-                <label class="item item-input">
-                    <span class="input-label icon-left">search</span>
-                </label>
-            </div>
             <div class="col">
                 <label class="item item-input">
                     <input type="text" ng-model="searchText">

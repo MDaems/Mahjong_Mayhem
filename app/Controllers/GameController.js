@@ -3,7 +3,6 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
     var self = this;
     self.GameFactory = GameFactory;
 	self.me = {};
-	self.selectedGame = null;
 	self.currentUser = window.localStorage['username'];
 
 	self.succesMessage = '';
@@ -96,7 +95,7 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 
 		//Details
 		self.getMatchedTiles(game);
-		selectedGame = game;
+        GameFactory.players = game.players;
 	};
 
 	self.getMatchedTiles = function(game){
@@ -115,6 +114,7 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 	}
 
 
+
 	self.getLeft = function(tileobject) {
 		var value = (Number(tileobject.xPos) * 73 + 10 * Number(tileobject.zPos))/2;
 		return value + 'px';
@@ -125,9 +125,6 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 		return value + 'px';
 	};
 
-	self.setSelected = function(game) {
-		selectedGame = game;
-	}
 
 	self.showMessageBox = function()
 	{

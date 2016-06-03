@@ -32,8 +32,8 @@ module.exports = function(app) {
                 controller: 'GameController as gc'
             })
 
-            .state('gamePlayers', {
-                url: '/gamePlayers',
+            .state('gameDetails', {
+                url: '/gameDetails',
                 templateUrl: './Views/gameDetails.html',
                 controller: 'GameController as gc'
             })
