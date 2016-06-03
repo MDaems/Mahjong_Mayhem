@@ -25,13 +25,6 @@ describe("GameController", function() {
         it('should return false when already full', function(){
             // Given
             var game = {
-                players: [
-                    {
-                        _id: "mha.daems@student.avans.nl",
-                        name: "Micky Daems",
-                        __v: 0
-                    }
-                ],
                 maxPlayers: 5,
                 minPlayers: 2,
                 players: [ {} , {}, {}, {}, {}],
@@ -88,6 +81,28 @@ describe("GameController", function() {
 
             // Then
             expect(canJoin).to.equal(true);
+        });
+    })
+
+    describe('canStart', function(){
+        it('should return false when game created by other player', function(){
+            // Given
+            var game = {
+                createdBy: {
+                    _id: "mha.daems@student.avans.nl",
+                    name: "Micky Daems",
+                    __v: 0
+                },
+                players: [ {} , {}, {}, {}, {}],
+            }
+            window.localStorage['username'] = "r.vanasseldonk@student.avans.nl";
+
+            // When
+            canStart = gameController.canStart(game);
+
+            // Then
+            expect(canStart).to.equal(false);
+
         });
     })
 
