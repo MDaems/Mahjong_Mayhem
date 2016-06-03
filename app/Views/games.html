@@ -40,8 +40,9 @@
             <td><a ui-sref="gamePlayers" href ng-click="gc.setSelected(game)"> {{ game.players.length }}</a></td>
             <td>{{ game.state }}</td>
             <td>
-                <button ng-if="gc.canJoin(game)" ng-click="gc.canJoinGame(game)">Join</button>
+                <button ng-if="gc.canJoinGame(game)" ng-click="gc.joinGame(game)">Join</button>
                 <button ui-sref="game"  ng-if="game.state != 'open'" ng-click="gc.getGameDetails(game)">Play</button>
+                <button ng-if="gc.canStartGame(game)" ng-click="gc.startGame(game)">Start</button>
             </td>
         </tr>
         </tbody>

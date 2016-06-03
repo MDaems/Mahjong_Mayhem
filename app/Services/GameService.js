@@ -31,6 +31,15 @@ module.exports = function($http){
         });
     };
 
+    service.startGame = function(game){
+        return $http({
+            method: 'POST',
+            url: urlBase+'/Games/' + game.id + '/Start',
+        }).then(function successCallback(response) {
+            return response.data;
+        });
+    }
+
     service.getGameBoard = function (game) {
         return $http({
             method: 'GET',

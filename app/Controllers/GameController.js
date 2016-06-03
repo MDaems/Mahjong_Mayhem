@@ -63,6 +63,21 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 		});
 	};
 
+    self.canStartGame = function(game) {
+        if(game.createdBy._id == window.localStorage['username'] && game.players.length >= game.minPlayers) {
+            return true;
+        }
+        return false;
+    };
+
+    self.startGame = function(game){
+        GameService.startGame(game).then(function(response){
+            self.succesMessage = "Game has started!";
+        }, function(err){
+            self.errorMessage = err.data.message;
+        });
+    }
+
 	self.getGameDetails = function(game) {
 		//Board
 		self.GameFactory.tiles= [];

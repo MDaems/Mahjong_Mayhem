@@ -39,7 +39,7 @@ module.exports = function (config) {
     singleRun: false,
 
     // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+    // possible values: Config.LOG_DISABLE || Config.LOG_ERROR || Config.LOG_WARN || Config.LOG_INFO || Config.LOG_DEBUG
     logLevel: config.LOG_INFO,
 
     browsers: ['Chrome']
