@@ -6,7 +6,7 @@ module.exports = function (config) {
     frameworks: ['mocha', 'chai', 'sinon', 'browserify'],
     files: [
       'app/**/*.js',
-      'node_modules/angular/angular.js',
+      // Angular-mocks moet na app.js geladen worden omdat daar angular in zit
       'node_modules/angular-mocks/angular-mocks.js',
       'test/*.spec.js'
     ],
@@ -39,7 +39,7 @@ module.exports = function (config) {
     singleRun: false,
 
     // level of logging
-    // possible values: Config.LOG_DISABLE || Config.LOG_ERROR || Config.LOG_WARN || Config.LOG_INFO || Config.LOG_DEBUG
+    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
     logLevel: config.LOG_INFO,
 
     browsers: ['Chrome']

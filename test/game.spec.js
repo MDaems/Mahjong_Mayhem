@@ -32,7 +32,7 @@ describe("GameController", function() {
             }
 
             // When
-            canJoin = gameController.canJoin(game);
+            canJoin = gameController.canJoinGame(game);
 
             // Then
             expect(canJoin).to.equal(false);
@@ -98,7 +98,7 @@ describe("GameController", function() {
             window.localStorage['username'] = "r.vanasseldonk@student.avans.nl";
 
             // When
-            canStart = gameController.canStart(game);
+            canStart = gameController.canStartGame(game);
 
             // Then
             expect(canStart).to.equal(false);

@@ -53,8 +53,8 @@ module.exports = function(grunt)
       },
       css:
       {
-        files: "app/**/*.css",
-        tasks: "copy"
+        files: "app/**/*.scss",
+        tasks: "sass"
       }
     },
     "http-server":
@@ -77,6 +77,6 @@ module.exports = function(grunt)
   grunt.loadNpmTasks("grunt-contrib-sass");
 
   // The default tasks to run when you type: 'grunt'.
-  grunt.registerTask("default", ["browserify", "copy", "http-server", "watch", "sass"]);/*
+  grunt.registerTask("default", ["browserify", "copy", "http-server", "sass", "watch"]);/*
   grunt.registerTask("default", ["browserify", "copy", "copy", "sass"]);*/
 };

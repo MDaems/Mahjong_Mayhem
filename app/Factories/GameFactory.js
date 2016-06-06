@@ -29,5 +29,6 @@ module.exports = function() {
 		factory.games[factory.games.indexOf(game)].players.push(player);
 	};
 
+
 return factory;
 };

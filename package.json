@@ -4,7 +4,7 @@
   "description": "",
   "main": "y",
   "scripts": {
-    "test": "karma start karma.conf"
+    "test": "karma start karma-config.js"
   },
   "repository": {
     "type": "git",
