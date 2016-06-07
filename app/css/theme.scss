@@ -1,0 +1,43 @@
+// Helper theme mixin
+// @param $name: name of the theme (HTML class)
+// @param $color: color of the theme
+@mixin theme($name, $color) {
+  .#{$name} {
+    .component{
+      border-color: darken($color, 10%);
+    }
+
+    .component__heading {
+      color: $color;
+    }
+
+    .navbar-inverse {
+      background-color: $color;
+      @if $name == "banana" {
+        background-image: url("http://www.themesltd.com/headers2/banana_on_the_run.png");
+        background-size: cover;
+      }@else if $name == "grandpa" {
+        font-size: $font-size * 3;
+      }
+    }
+
+    h1 {
+      color: $color;
+      @if $name == "grandpa" {
+        font-size: $font-size * 5;
+      }
+    }
+  }
+
+  [data-theme='#{$name}'] {
+    background: $color;
+
+    &:hover {
+      background: darken($color, 10%);
+    }
+
+    &[disabled] {
+      background: desaturate($color, 40%);
+    }
+  }
+}

@@ -3,18 +3,21 @@
 <head>
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="sprites.css">
-	<link rel="stylesheet" href="css/app.scss">
+	<link rel="stylesheet" href="css/app.css">
 	<style>
 		.navbar { border-radius:0; }
 	</style>
 	<script src="app.js"></script>
 </head>
-<body ng-app="Mahjong" ng-controller="HomeController">
+<body ng-app="Mahjong" ng-controller="HomeController as hCtrl" ng-class="myDynamicClass">
+
+
 	<!-- NAVIGATION -->
 	<nav class="navbar navbar-inverse" role="navigation">
 		<div class="navbar-header">
 			<a class="navbar-brand" ui-sref="#">Mahjong Mayhem</a>
 		</div>
+
 		<ul class="nav navbar-nav">
 			<li><a ui-sref="home">Home</a></li>
 			<li><a ui-sref="games">Games</a></li>
@@ -23,6 +26,12 @@
 			<li><a ng-if="token == undefined" href="http://mahjongmayhem.herokuapp.com/auth/avans?callbackUrl=http://localhost:3000/%23/authcallback"><i class="fa fa-shield"></i> Login</a></li>
 		</ul>
 	</nav>
+	<section class="controls">
+		<button class="controls" ng-click="hCtrl.changeTheme('default')" data-theme="default">Default</button>
+		<button class="controls" ng-click="hCtrl.changeTheme('grandpa')" data-theme="grandpa">Grandpa</button>
+		<button class="controls" ng-click="hCtrl.changeTheme('banana')" data-theme="banana">Banana</button>
+	</section>
+
 	<div class="container">
 		<div ui-view></div>
 	</div>

@@ -1,9 +1,25 @@
 @import 'config';
+@import 'theme';
 
-body {
-  background-color: $background-color;
+// Including themes
+// By looping through the $themes map
+@each $key, $value in $themes {
+  @include theme($key, $value);
 }
 
-h1 {
-  color: $header-color;
+
+// Default styles
+.controls > button {
+  border: none;
+  color: white;
+  padding: 0.5em;
+  font-weight: bold;
+  margin-bottom: .5em;
+  margin-left: 3px;
+  float: right;
+}
+
+
+body {
+  padding: 1em;
 }
