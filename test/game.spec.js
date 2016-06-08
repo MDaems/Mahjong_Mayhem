@@ -6,7 +6,7 @@ describe("GameController", function() {
     var scope;
 
     // initialize the app
-    beforeEach(module('Mahjong'));
+    beforeEach(module('mahjong'));
 
     // Inject the modules and get them in global variables
     beforeEach(inject(function($rootScope, $controller, $httpBackend, $injector){

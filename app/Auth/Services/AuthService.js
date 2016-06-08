@@ -1,5 +1,4 @@
-module.exports = function(app) {
-  app.factory('AuthService', function () {
+angular.module('Mahjong').factory('AuthService', function () {
     return {
       request: function (config) {
 
@@ -10,4 +9,3 @@ module.exports = function(app) {
       }
     };
   });
-}

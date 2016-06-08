@@ -3,8 +3,14 @@ module.exports = function($scope){
 
 	var self = this;
 
+	if(window.localStorage['theme'] != 'undefined')
+	{
+		$scope.myDynamicClass = window.localStorage['theme'];
+	}
+
 	self.changeTheme = function(theme) {
 		$scope.myDynamicClass = theme;
+		window.localStorage['theme'] = theme;
 	};
 
 }

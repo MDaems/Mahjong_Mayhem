@@ -63,7 +63,7 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 	};
 
     self.canStartGame = function(game) {
-        if(game.createdBy._id == window.localStorage['username'] && game.players.length >= game.minPlayers) {
+        if(game.createdBy._id == window.localStorage['username'] && game.players.length >= game.minPlayers && game.state == "open") {
             return true;
         }
         return false;

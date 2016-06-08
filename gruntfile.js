@@ -77,6 +77,5 @@ module.exports = function(grunt)
   grunt.loadNpmTasks("grunt-contrib-sass");
 
   // The default tasks to run when you type: 'grunt'.
-  grunt.registerTask("default", ["browserify", "copy", "http-server", "sass", "watch"]);/*
-  grunt.registerTask("default", ["browserify", "copy", "copy", "sass"]);*/
+  grunt.registerTask("default", ["browserify", "copy", "http-server", "sass", "watch"]);
 };
