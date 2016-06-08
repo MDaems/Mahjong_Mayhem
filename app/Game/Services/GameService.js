@@ -11,6 +11,15 @@ module.exports = function($http){
         });
     };
 
+    service.getGameById = function(id){
+        return $http({
+            method: 'GET',
+            url: urlBase+'/Games/' + id,
+        }).then(function successCallback(response) {
+            return response.data;
+        });
+    }
+
     service.addGame = function (game) {
         return $http({
             method: 'POST',
@@ -25,7 +34,7 @@ module.exports = function($http){
     service.joinGame = function (game) {
         return $http({
             method: 'POST',
-            url: urlBase+'/Games/' + game.id + '/Players',
+            url: urlBase+'/Games/' + game._id + '/Players',
         }).then(function successCallback(response) {
             return response.data;
         });
@@ -34,29 +43,30 @@ module.exports = function($http){
     service.startGame = function(game){
         return $http({
             method: 'POST',
-            url: urlBase+'/Games/' + game.id + '/Start',
+            url: urlBase+'/Games/' + game._id + '/Start',
         }).then(function successCallback(response) {
             return response.data;
         });
     }
 
-    service.getGameBoard = function (game) {
+    service.getGameBoard = function (id) {
         return $http({
             method: 'GET',
-            url: urlBase+'/games/' + game.id + '/tiles'
+            url: urlBase+'/games/' + id + '/tiles'
         }).then(function successCallback(response) {
             return response.data;
         });
     };
 
-    service.getMatchedTiles = function (game) {
+   /* service.getMatchedTiles = function (id) {
+        console.log(id);
         return $http({
             method: 'GET',
-            url: urlBase+'/Games/' + game.id + '/Tiles/matches',
+            url: urlBase+'/Games/' + id + '/Tiles/matches',
         }).then(function successCallback(response) {
             return response.data;
         });
-    };
+    };*/
     
 	return service;
 };

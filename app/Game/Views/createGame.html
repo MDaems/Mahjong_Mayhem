@@ -9,23 +9,23 @@
         </tr>
         <tr>
             <td>
-                <select ng-model="gc.game.templateName" style="width: 180px">
+                <select ng-model="gCtrl.game.templateName" style="width: 180px">
                     <option value="Ox">Ox</option>
                     <option value="Ram">Ram</option>
                     <option value="Dragon">Dragon</option>
                 </select>
             </td>
-            <td><input type="text" ng-model="gc.game.maxPlayers"></td>
-            <td><input type="text" ng-model="gc.game.minPlayers"></td>
-            <td>  <input type="submit" ng-click="gc.addGame(gc.game)" value="Create" style="width: 180px"></td>
+            <td><input type="text" ng-model="gCtrl.game.maxPlayers"></td>
+            <td><input type="text" ng-model="gCtrl.game.minPlayers"></td>
+            <td>  <input type="submit" ng-click="gCtrl.addGame(gCtrl.game)" value="Create" style="width: 180px"></td>
         </tr>
     </table>
     </div>
 </br>
-    <div class="alert alert-success" ng-if="gc.succesMessage != ''">
-        {{ gc.succesMessage }}
+    <div class="alert alert-success" ng-if="gCtrl.succesMessage != ''">
+        {{ gCtrl.succesMessage }}
     </div>
-    <div class="alert alert-danger" ng-if="gc.errorMessage != ''">
-        {{ gc.errorMessage }}
+    <div class="alert alert-danger" ng-if="gCtrl.errorMessage != ''">
+        {{ gCtrl.errorMessage }}
     </div>
 </div>

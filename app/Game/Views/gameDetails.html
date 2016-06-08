@@ -3,7 +3,7 @@
     <h3>Players in Game</h3>
         <table class="table table-striped">
             <tbody>
-            <tr ng-repeat="player in gc.GameFactory.players">
+            <tr ng-repeat="player in gdCtrl.players">
                 <td>{{ player._id }}</td>
                 <td>{{ player.name }}</td>
             </tr>
@@ -19,10 +19,12 @@
                 </label>
             </div>
         </div>
+
         <table class="table table-striped">
             <tbody>
-            <tr ng-repeat="match in gc.GameFactory.matches | filter:searchText">
-                <td><div class="tile {{match.tile.suit}}{{match.tile.name}}"></div>{{match.tile.id}}</td>
+            <tr ng-repeat="match in gdCtrl.matches | filter:searchText">
+                <td><div class="sprite sprite-{{match.tile1.suit + match.tile1.name | lowercase}}"></div></td>
+                <td><div class="sprite sprite-{{match.tile2.suit + match.tile2.name | lowercase}}"></div></td>
                 <td>{{match.player.foundBy}}</br>{{match.player.foundOn}}</td>
             </tr>
             </tbody>

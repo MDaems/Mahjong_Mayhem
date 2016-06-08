@@ -1,20 +1,21 @@
+var Game = require('../Models/Game');
+
 module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}, $routeParams) {
 
     var self = this;
-    self.GameFactory = GameFactory;
-	self.me = {};
+	self.games = [];
 	self.currentUser = window.localStorage['username'];
-
 	self.succesMessage = '';
 	self.errorMessage = '';
 
 	getGames();
 
 	function getGames(){
+		self.games= [];
 		GameService.getGames()
 			.then(function successCallback(response) {
 				angular.forEach(response, function(game) {
-					self.GameFactory.addGame(game);
+					self.games.push(new Game(game));
 				});
 			}, function errorCallback(err) {
 				self.errorMessage = err.statusText;
@@ -23,7 +24,6 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 	}
 
 	self.addGame = function(game){
-		console.log(game);
 		GameService.addGame(game)
 			.then(function successCallback(response) {
 			self.succesMessage = 'Successfully added game';
@@ -36,13 +36,14 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 
 
 	self.canJoinGame = function(game) {
-		if(game.state != 'open' || game.maxPlayers <= game.players.length) {
+
+		if(game.createdBy._id == self.currentUser || game.state != 'open' || game.maxPlayers <= game.players.length) {
 			return false;
 		}
 		else {
 			if(game.players.length > 0) {
 				for(var i = 0; i < game.players.length; i ++) {
-					if(game.players[i]._id == self.me._id) {
+					if(game.players[i]._id == self.currentUser) {
 						return false;
 					}
 				}
@@ -55,6 +56,7 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 		GameService.joinGame(game)
 			.then(function successCallback(response) {
 			self.succesMessage = 'Successfully joined game';
+				//getGames();
 			self.showMessageBox();
 		},function errorCallback(err) {
 			self.errorMessage = err.statusText;
@@ -76,56 +78,6 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
             self.errorMessage = err.data.message;
         });
     }
-
-	self.getGameDetails = function(game) {
-		//Board
-		self.GameFactory.tiles= [];
-		GameService.getGameBoard(game)
-			.then(function successCallback(response) {
-			angular.forEach(response, function(tile) {
-				var temp_tile = tile;
-				temp_tile.left = self.getLeft(tile);
-				temp_tile.top = self.getTop(tile);
-				self.GameFactory.addTile(temp_tile);
-			});
-		}, function errorCallback(response) {
-			self.errorMessage = response.data.message;
-			self.showMessageBox();
-		});
-
-		//Details
-		self.getMatchedTiles(game);
-        GameFactory.players = game.players;
-	};
-
-	self.getMatchedTiles = function(game){
-		self.GameFactory.matches= [];
-		GameService.getMatchedTiles(game)
-			.then(function successCallback(response) {
-			angular.forEach(response, function(row) {
-				var match = {
-					"tile":row.tile,
-					"player":row.match
-				}
-				self.GameFactory.addMatch(match);
-			});
-		}, function errorCallback(response) {
-		});
-	}
-
-
-
-	self.getLeft = function(tileobject) {
-		var value = (Number(tileobject.xPos) * 73 + 10 * Number(tileobject.zPos))/2;
-		return value + 'px';
-	};
-
-	self.getTop = function(tileobject) {
-		var value = ((Number(tileobject.yPos) * 90) + (10 * Number(tileobject.zPos)))/2;
-		return value + 'px';
-	};
-
-
 	self.showMessageBox = function()
 	{
 		$timeout(function(){

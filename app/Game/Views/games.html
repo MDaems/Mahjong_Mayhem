@@ -1,10 +1,10 @@
 <div class="text-center">
     <h1>Games</h1>
-    <div class="alert alert-success" ng-if="gc.succesMessage != ''">
-        {{ gc.succesMessage }}
+    <div class="alert alert-success" ng-if="gCtrl.succesMessage != ''">
+        {{ gCtrl.succesMessage }}
     </div>
-    <div class="alert alert-danger"  ng-if="gc.errorMessage != ''">
-        {{ gc.errorMessage }}
+    <div class="alert alert-danger"  ng-if="gCtrl.errorMessage != ''">
+        {{ gCtrl.errorMessage }}
     </div>
     <div class="btn-group" role="group">
         <button type="button" class="btn btn-primary" ng-click="myFilter={state:''}">All</button>
@@ -19,7 +19,7 @@
         <button type="button" class="btn btn-primary" ng-click="myFilter={state:'finished'}">Finished</button>
     </div>
     <div class="btn-group" role="group">
-        <button type="button" class="btn btn-primary" ng-click="myFilter={players: {_id: gc.currentUser}}">MyGames ({{gc.currentUser}})</button>
+        <button type="button" class="btn btn-primary" ng-show="gCtrl.currentUser != undefined"  ng-click="myFilter={players: {_id: gCtrl.currentUser}}">MyGames ({{gCtrl.currentUser}})</button>
     </div>
     <table class="table table-striped">
         <thead>
@@ -33,16 +33,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="game in gc.GameFactory.games | filter: myFilter">
+        <tr ng-repeat="game in gCtrl.games | filter: myFilter">
             <td>{{ game.createdBy.name }}</td>
             <td>{{ game.minPlayers }}</td>
             <td>{{ game.maxPlayers }}</td>
-            <td><a ui-sref="gameDetails" href ng-click="gc.getGameDetails(game)"> {{ game.players.length }}</a></td>
+            <td><a ui-sref="gameDetails({id:game._id})"> {{ game.players.length }}</a></td>
             <td>{{ game.state }}</td>
             <td>
-                <button class="btn btn-warning" ng-if="gc.canJoinGame(game)" ng-click="gc.joinGame(game)">Join</button>
-                <button class="btn btn-info" ui-sref="game.board"  ng-if="game.state != 'open'" ng-click="gc.getGameDetails(game)">Play</button>
-                <button class="btn btn-success" ng-if="gc.canStartGame(game)" ng-click="gc.startGame(game)">Start</button>
+                <button ng-show="gCtrl.canJoinGame(game)"  class="btn btn-warning"  ng-click="gCtrl.joinGame(game)">Join</button>
+                <button ng-show="game.state != 'open'"  class="btn btn-info"   ui-sref="game({id:game._id})">Play</button>
+                <button ng-show="gCtrl.canStartGame(game)" class="btn btn-success"  ng-click="gCtrl.startGame(game)">Start</button>
             </td>
         </tr>
         </tbody>
