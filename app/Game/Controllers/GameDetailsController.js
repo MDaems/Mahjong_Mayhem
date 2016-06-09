@@ -78,31 +78,42 @@ module.exports = function($scope, GameService, $stateParams) {
 		if(self.tileCanBeSelected(tileObject)){
 			if(self.firstSelectedTile == tileObject ) {
 				self.firstSelectedTile = [];
+				console.log('first removed');
 			} else if(self.secondSelectedTile == tileObject) {
 				self.secondSelectedTile = [];
+				console.log('second removed');
 			} else {
 				if(Object.keys(self.firstSelectedTile).length != 0) {
 					self.secondSelectedTile = tileObject;
+					console.log('second set');
 					if(self.tilesAreAMatch()) {
+						console.log('MATCH');
 						self.match();
 					}
 					self.firstSelectedTile = [];
 					self.secondSelectedTile = [];
 				} else {
                     self.firstSelectedTile = tileObject;
+					console.log('first set');
                 }
 			}
 		}
 	};
 
 	self.tileCanBeSelected = function(selectedTile) {
+		if(self.game.state == 'finished') {
+			return false;
+		}
 		var x = selectedTile.xPos;
 		var y = selectedTile.yPos;
 		var z = selectedTile.zPos;
+		console.log(x,y,z);
 		var surroundedOnLeft = false;
 		var surroundedOnRight = false;
+		var noSurroundingTiles = true;
 		self.tiles.forEach(function(tileObject){
 			if(!tileObject.match && tileObject.zPos >= z && tileObject.yPos >= y - 1 && tileObject.yPos <= y + 1 && tileObject.xPos >= x - 2 && tileObject.xPos <= x + 2 && tileObject._id != selectedTile._id) {
+				console.log(tileObject.xPos, tileObject.yPos, tileObject.zPos);
 				//Check if surrounded
 				if(tileObject.zPos == z) {
 					if (tileObject.xPos == x - 2) {
@@ -126,12 +137,20 @@ module.exports = function($scope, GameService, $stateParams) {
 						}
 					}
 				}
+				noSurroundingTiles = false;
 			}
 		});
-        return true;
+		if(noSurroundingTiles) {
+			return true;
+		}
 	};
 
     self.tilesAreAMatch = function() {
+		if(self.firstSelectedTile.tile.suit == self.secondSelectedTile.tile.suit){
+			if(self.firstSelectedTile.tile.suit == 'Flower' || self.firstSelectedTile.tile.suit == 'Season') {
+				return true;
+			}
+		}
         var nameFirstTile = self.firstSelectedTile.tile.suit + self.firstSelectedTile.tile.name;
         var nameSecondTile = self.secondSelectedTile.tile.suit + self.secondSelectedTile.tile.name;
 
