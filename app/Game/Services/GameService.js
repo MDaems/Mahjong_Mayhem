@@ -58,6 +58,18 @@ module.exports = function($http){
         });
     };
 
+    service.match = function(gameId, firstTile, secondTile) {
+        console.log('Request');
+        console.log('firstTile:',firstTile, ' secondTile: ',secondTile);
+        return $http({
+            method: 'POST',
+            url: urlBase + '/Games/' + gameId + '/Tiles/matches',
+            data: { tile1Id: firstTile, tile2Id: secondTile }
+        }).then(function successCallback(response){
+            return response;
+        });
+    };
+
    /* service.getMatchedTiles = function (id) {
         console.log(id);
         return $http({

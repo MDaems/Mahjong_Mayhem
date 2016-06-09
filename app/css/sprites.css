@@ -5,51 +5,51 @@
 	background: url(https://bb.avans.nl/bbcswebdav/pid-6145658-dt-content-rid-16474683_2/courses/AII-1516D-INWEBS6/AII-1516D-INWEBS6_ImportedContent_20160412023118/Mahjong_sprite_sheet_2.png);
 }
 
-/*FIRST ROW*/
 .sprite-character1  { background-position: 0 0; }
-.sprite-character2  { background-position: 73px 0; }
-.sprite-character3  { background-position: 146px 0; }
-.sprite-character4  { background-position: 219px 0; }
-.sprite-character5  { background-position: 292px 0; }
-.sprite-character6  { background-position: 365px 0; }
-.sprite-character7  { background-position: 438px 0; }
+.sprite-character2  { background-position: 949px 0; }
+.sprite-character3  { background-position: 876px 0; }
+.sprite-character4  { background-position: 657px 0; }
+.sprite-character5  { background-position: 730px 0; }
+.sprite-character6  { background-position: 803px 0; }
+.sprite-character7  { background-position: 584px 0; }
 .sprite-character8  { background-position: 511px 0; }
-.sprite-character9  { background-position: 584px 0; }
-.sprite-windnorth  { background-position: 657px 0; }
-.sprite-windsouth  { background-position: 730px 0; }
-.sprite-windeast  { background-position: 803px 0; }
-.sprite-windwest  { background-position: 876px 0; }
-.sprite-dragongreen  { background-position: 949px 0; }
+.sprite-character9  { background-position: 438px 0; }
 
-
-/*SECOND ROW*/
 .sprite-bamboo1  { background-position: 0 -90px; }
-.sprite-bamboo2  { background-position: 73px -90px; }
-.sprite-bamboo3  { background-position: 146px -90px; }
-.sprite-bamboo4  { background-position: 219px -90px; }
-.sprite-bamboo5  { background-position: 292px -90px; }
-.sprite-bamboo6  { background-position: 365px -90px; }
-.sprite-bamboo7  { background-position: 438px -90px; }
+.sprite-bamboo2  { background-position: 949px -90px; }
+.sprite-bamboo3  { background-position: 876px -90px; }
+.sprite-bamboo4  { background-position: 803px -90px; }
+.sprite-bamboo5  { background-position: 730px -90px; }
+.sprite-bamboo6  { background-position: 657px -90px; }
+.sprite-bamboo7  { background-position: 584px -90px; }
 .sprite-bamboo8  { background-position: 511px -90px; }
-.sprite-bamboo9  { background-position: 584px -90px; }
-.sprite-seasonspring  { background-position: 657px -90px; }
-.sprite-seasonsummer  { background-position: 730px -90px; }
-.sprite-seasonautunm  { background-position: 803px -90px; }
-.sprite-seasonwinter  { background-position: 876px -90px; }
-.sprite-dragonred  { background-position: 949px -90px; }
+.sprite-bamboo9  { background-position: 438px -90px; }
 
-/*LAST ROW*/
 .sprite-circle1  { background-position: 0 -180px; }
-.sprite-circle2  { background-position: 73px -180px; }
-.sprite-circle3  { background-position: 146px -180px; }
-.sprite-circle4  { background-position: 219px -180px; }
-.sprite-circle5  { background-position: 292px -180px; }
-.sprite-circle6  { background-position: 365px -180px; }
-.sprite-circle7  { background-position: 438px -180px; }
+.sprite-circle2  { background-position: 949px -180px; }
+.sprite-circle3  { background-position: 876px -180px; }
+.sprite-circle4  { background-position: 803px -180px; }
+.sprite-circle5  { background-position: 730px -180px; }
+.sprite-circle6  { background-position: 657px -180px; }
+.sprite-circle7  { background-position: 584px -180px; }
 .sprite-circle8  { background-position: 511px -180px; }
-.sprite-circle9  { background-position: 584px -180px; }
-.sprite-flowerbamboo  { background-position: 657px -180px; }
-.sprite-flowerplum  { background-position: 730px -180px; }
-.sprite-flowerorchid  { background-position: 803px -180px; }
-.sprite-flowerchrysantememum  { background-position: 876px -180px; }
-.sprite-dragonwhite  { background-position: 949px -180px; }
+.sprite-circle9  { background-position: 438px -180px; }
+
+.sprite-dragongreen  { background-position: 73px 0; }
+.sprite-dragonred  { background-position: 73px -90px; }
+.sprite-dragonwhite  { background-position: 73px -180px; }
+
+.sprite-windwest  { background-position: 146px 0; }
+.sprite-windeast  { background-position: 219px 0; }
+.sprite-windsouth  { background-position: 292px 0; }
+.sprite-windnorth  { background-position: 365px 0; }
+
+.sprite-seasonwinter  { background-position: 146px -90px; }
+.sprite-seasonautumn  { background-position: 219px -90px; }
+.sprite-seasonsummer  { background-position: 292px -90px; }
+.sprite-seasonspring  { background-position: 365px -90px; }
+
+.sprite-flowerchrysantememum  { background-position: 146px -180px; }
+.sprite-flowerorchid  { background-position: 219px -180px; }
+.sprite-flowerplum  { background-position: 292px -180px; }
+.sprite-flowerbamboo  { background-position: 365px -180px; }

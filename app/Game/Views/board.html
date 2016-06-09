@@ -3,15 +3,15 @@
 				position: absolute;
 				left: 400px;
 				top: 170px;"
+		z-index="-1"
 	>
 		<div
 			style="position:absolute;"
-			ng-repeat="tileobject in gdCtrl.tiles"
-			ng-if="tileobject.match.foundBy == undefined"
-			class="sprite sprite-{{tileobject.tile.suit + tileobject.tile.name | lowercase}}"
-			z-index="{{ tileobject.zPos }}"
-			ng-style="{'left': tileobject.left, 'top': tileobject.top}"
-		>
+			ng-repeat="tileObject in gdCtrl.tiles"
+			ng-if="tileObject.match.foundBy == undefined"
+			class="sprite sprite-{{tileObject.tile.suit + tileObject.tile.name | lowercase}}"
+			ng-style="{'left': tileObject.left, 'top': tileObject.top, 'z-index': tileObject.zPos}"
+			ng-click="gdCtrl.selectTile(tileObject)">
 		</div>
 	</div>
 </div>
