@@ -5,6 +5,7 @@
 				top: 170px;"
 		z-index="-1"
 	>
+
 		<div
 			style="position:absolute;"
 			ng-repeat="tileObject in gdCtrl.tiles"
@@ -13,5 +14,9 @@
 			ng-style="{'left': tileObject.left, 'top': tileObject.top, 'z-index': tileObject.zPos}"
 			ng-click="gdCtrl.selectTile(tileObject)">
 		</div>
+	</div>
+
+	<div style="width:300px;text-align:center; font-size:20px;background-color:lightgray;position:absolute;margin:0 auto;top:150px;">
+		No more matches possible!
 	</div>
 </div>

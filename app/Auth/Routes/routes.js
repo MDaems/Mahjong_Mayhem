@@ -3,7 +3,7 @@ $stateProvider
 
     .state('authcallback', {
         url: '/authcallback?:username&:token',
-        templateUrl: './Views/player.html',
+        templateUrl: './../Player/Views/player.html',
         controller: 'PlayerController as pCtrl'
     })
 };
