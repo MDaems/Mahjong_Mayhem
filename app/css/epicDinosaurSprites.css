@@ -1,0 +1,55 @@
+
+.sprite {
+	width:73px;
+	height:90px;
+	background: url(dinosaurSprites.png);
+}
+
+.sprite-character1  { background-position: 0 0; }
+.sprite-character2  { background-position: 73px 0; }
+.sprite-character3  { background-position: 146px 0; }
+.sprite-character4  { background-position: 219px 0; }
+.sprite-character5  { background-position: 292px 0; }
+.sprite-character6  { background-position: 365px 0; }
+
+.sprite-character7  { background-position: 0 -90px; }
+.sprite-character8  { background-position: 73px -90px; }
+.sprite-character9  { background-position: 146px -90px; }
+.sprite-bamboo1  { background-position: 219px -90px; }
+.sprite-bamboo2  { background-position: 292px -90px; }
+.sprite-bamboo3  { background-position: 365px -90px; }
+
+.sprite-bamboo4  { background-position: 0 -180px; }
+.sprite-bamboo5  { background-position: 73px -180px; }
+.sprite-bamboo6  { background-position: 146px -180px; }
+.sprite-bamboo7  { background-position: 219px -180px; }
+.sprite-bamboo8  { background-position: 292px -180px; }
+.sprite-bamboo9  { background-position: 365px -180px; }
+
+.sprite-circle1  { background-position: 0 -180px; }
+.sprite-circle2  { background-position: 73px -180px; }
+.sprite-circle3  { background-position: 146px -180px; }
+.sprite-circle4  { background-position: 219px -180px; }
+.sprite-circle5  { background-position: 292px -180px; }
+.sprite-circle6  { background-position: 365px -180px; }
+
+.sprite-circle7  { background-position: 0 -270px; }
+.sprite-circle8  { background-position: 73px -270px; }
+.sprite-circle9  { background-position: 146px -270px; }
+.sprite-dragongreen  { background-position: 219px -270px; }
+.sprite-dragonred  { background-position: 292px -270px; }
+.sprite-dragonwhite  { background-position: 365px -270px; }
+
+.sprite-windwest  { background-position: 0 -360px; }
+.sprite-windeast  { background-position: 73px -360px; }
+.sprite-windsouth  { background-position: 146px -360px; }
+.sprite-windnorth  { background-position: 219px -360px; }
+.sprite-seasonwinter  { background-position: 292px -360px; }
+.sprite-seasonautumn  { background-position: 365px -360px; }
+
+.sprite-seasonsummer  { background-position: 0 -450px; }
+.sprite-seasonspring  { background-position: 73px -450px; }
+.sprite-flowerchrysantememum  { background-position: 146px -450px; }
+.sprite-flowerorchid  { background-position: 219px -450px; }
+.sprite-flowerplum  { background-position: 292px -450px; }
+.sprite-flowerbamboo  { background-position: 365px -450px; }
