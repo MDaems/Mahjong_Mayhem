@@ -41,7 +41,7 @@
             <td>{{ game.state }}</td>
             <td>
                 <button ng-show="gCtrl.canJoinGame(game)"  class="btn btn-warning"  ng-click="gCtrl.joinGame(game)">Join</button>
-                <button ng-show="gCtrl.canPlayGame(game)"  class="btn btn-info"   ui-sref="game({id:game._id})">Play</button>
+                <button ng-show="gCtrl.canPlayGame(game)"  class="btn btn-info"   ui-sref="game({id:game._id})">Open</button>
                 <button ng-show="gCtrl.canStartGame(game)" class="btn btn-success"  ng-click="gCtrl.startGame(game)">Start</button>
             </td>
         </tr>

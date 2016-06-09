@@ -64,10 +64,7 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 	};
 
     self.canStartGame = function(game) {
-        if(game.createdBy._id == window.localStorage['username'] && game.players.length >= game.minPlayers && game.state == "open") {
-            return true;
-        }
-        return false;
+        return game.createdBy._id == window.localStorage['username'] && game.players.length >= game.minPlayers && game.state == "open";
     };
 
     self.startGame = function(game){
@@ -77,7 +74,7 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
         }, function(err){
             self.errorMessage = err.data.message;
         });
-    }
+    };
 
 	self.canPlayGame = function(game) {
 		if(self.currentUser != undefined && game.state != 'open') {
@@ -91,6 +88,7 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 		}
 		return false;
 	};
+
 	self.showMessageBox = function()
 	{
 		$timeout(function(){
