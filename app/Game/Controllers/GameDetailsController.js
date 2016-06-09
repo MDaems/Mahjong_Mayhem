@@ -78,21 +78,19 @@ module.exports = function($scope, GameService, $stateParams) {
 		if(self.tileCanBeSelected(tileObject)){
 			if(self.firstSelectedTile == tileObject ) {
 				self.firstSelectedTile = [];
-				console.log('First Tile cleared');
 			} else if(self.secondSelectedTile == tileObject) {
 				self.secondSelectedTile = [];
-				console.log('Second Tile cleared');
 			} else {
 				if(Object.keys(self.firstSelectedTile).length != 0) {
 					self.secondSelectedTile = tileObject;
 					if(self.tilesAreAMatch()) {
 						self.match();
-						console.log('MATCH!');
 					}
-					console.log('Not a Match');
 					self.firstSelectedTile = [];
 					self.secondSelectedTile = [];
-				}
+				} else {
+                    self.firstSelectedTile = tileObject;
+                }
 			}
 		}
 	};
@@ -130,6 +128,7 @@ module.exports = function($scope, GameService, $stateParams) {
 				}
 			}
 		});
+        return true;
 	};
 
     self.tilesAreAMatch = function() {
@@ -142,7 +141,24 @@ module.exports = function($scope, GameService, $stateParams) {
     self.match = function() {
         GameService.match($stateParams.id, self.firstSelectedTile._id, self.secondSelectedTile._id)
             .then(function successCallback(response) {
-                getGameDetails();
+           /*     angular.forEach(self.tiles, function(tile)
+                {
+                    if(tile._id == response.data[0]._id) {
+                        var index =  self.tiles.indexOf(tile);
+
+                    }
+                });*/
+
+                for(var i = 0; i < self.tiles.length; i ++) {
+                    if(self.tiles[i]._id == response.data[0]._id || self.tiles[i]._id == response.data[1]._id) {
+                        self.tiles.splice(i,1);
+                    }
+                }
+
+               /* var index1 =  self.tiles.indexOf(response.data[0]);
+                self.tiles.splice(index1,1);
+                var index2 =  self.tiles.indexOf(response.data[1]);
+                self.tiles.splice(index1,1);*/
             });
     };
 
