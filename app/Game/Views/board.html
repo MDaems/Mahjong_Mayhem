@@ -1,16 +1,22 @@
 <div class="text-center">
+	<div class="alert alert-success" ng-if="gdCtrl.succesMessage != ''">
+		{{ gdCtrl.succesMessage }}
+	</div>
+	<div class="alert alert-danger" ng-if="gdCtrl.errorMessage != ''">
+		{{ gdCtrl.errorMessage }}
+	</div>
     <div style="
 				position: absolute;
 				left: 20%;
 				top: 170px;"
 		z-index="-1"
 	>
-
 		<div
 			style="position:absolute;"
 			ng-repeat="tileObject in gdCtrl.tiles"
 			ng-if="tileObject.match.foundBy == undefined"
 			class="sprite sprite-{{tileObject.tile.suit + tileObject.tile.name | lowercase}}"
+			ng-class="gdCtrl.isSelected(tileObject._id)"
 			ng-style="{'left': tileObject.left, 'top': tileObject.top, 'z-index': tileObject.zPos}"
 			ng-click="gdCtrl.selectTile(tileObject)">
 		</div>

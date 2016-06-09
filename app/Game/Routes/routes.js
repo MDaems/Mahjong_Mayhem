@@ -25,7 +25,9 @@ module.exports = function ($stateProvider) {
             url: '/game/:id',
             params: {'id': null },
             templateUrl: './Game/Views/game.html',
-            controller: 'GameDetailsController as gdCtrl'
+            controller: function ($state, $stateParams) {
+                $state.go('game.board');
+            }
         })
 
         .state('game.board', {

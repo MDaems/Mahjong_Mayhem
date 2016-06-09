@@ -8,6 +8,12 @@
   @include theme($key, $value);
 }
 
+.Selected {
+  border-style: solid;
+  border-radius: 13px;
+  border: 4px solid #d9534f;
+  padding: 20px;
+}
 
 // Default styles
 .controls > button {

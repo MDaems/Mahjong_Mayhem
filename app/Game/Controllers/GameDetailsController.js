@@ -1,4 +1,4 @@
-module.exports = function($scope, GameService, $stateParams) {
+module.exports = function($scope, GameService, $stateParams, $timeout) {
     var self = this;
 
     self.game = '';
@@ -67,13 +67,6 @@ module.exports = function($scope, GameService, $stateParams) {
         return value + 'px';
     };
 
-    self.showMessageBox = function() {
-        $timeout(function(){
-            self.succesMessage = '';
-            self.errorMessage = '';
-        }, 3000);
-    };
-
 	self.selectTile = function(tileObject) {
 		if(self.tileCanBeSelected(tileObject)){
 			if(self.firstSelectedTile == tileObject ) {
@@ -83,18 +76,21 @@ module.exports = function($scope, GameService, $stateParams) {
 				self.secondSelectedTile = [];
 				console.log('second removed');
 			} else {
-				if(Object.keys(self.firstSelectedTile).length != 0) {
-					self.secondSelectedTile = tileObject;
-					console.log('second set');
-					if(self.tilesAreAMatch()) {
-						console.log('MATCH');
-						self.match();
-					}
-					self.firstSelectedTile = [];
-					self.secondSelectedTile = [];
-				} else {
+                if(Object.keys(self.firstSelectedTile).length != 0) {
+                    self.secondSelectedTile = tileObject;
+                    if(self.tilesAreAMatch()) {
+                        self.match();
+                        self.succesMessage = "Match gevonden!";
+                        self.showMessageBox();
+                    }else
+                    {
+                        self.errorMessage = "Geen Match!";
+                        self.showMessageBox();
+                    }
+                    self.firstSelectedTile = [];
+                    self.secondSelectedTile = [];
+                } else {
                     self.firstSelectedTile = tileObject;
-					console.log('first set');
                 }
 			}
 		}
@@ -158,28 +154,32 @@ module.exports = function($scope, GameService, $stateParams) {
     };
 
     self.match = function() {
-        GameService.match($stateParams.id, self.firstSelectedTile._id, self.secondSelectedTile._id)
-            .then(function successCallback(response) {
-           /*     angular.forEach(self.tiles, function(tile)
-                {
-                    if(tile._id == response.data[0]._id) {
-                        var index =  self.tiles.indexOf(tile);
-
-                    }
-                });*/
-
-                for(var i = 0; i < self.tiles.length; i ++) {
-                    if(self.tiles[i]._id == response.data[0]._id || self.tiles[i]._id == response.data[1]._id) {
-                        self.tiles.splice(i,1);
-                    }
+    GameService.match($stateParams.id, self.firstSelectedTile._id, self.secondSelectedTile._id)
+        .then(function successCallback(response) {
+            for(var i = 0; i < self.tiles.length; i ++) {
+                if(self.tiles[i]._id == response.data[0]._id || self.tiles[i]._id == response.data[1]._id) {
+                    self.tiles.splice(i,1);
                 }
-
-               /* var index1 =  self.tiles.indexOf(response.data[0]);
-                self.tiles.splice(index1,1);
-                var index2 =  self.tiles.indexOf(response.data[1]);
-                self.tiles.splice(index1,1);*/
-            });
+            }
+        });
     };
+
+    self.isSelected= function(tileId) {
+        if(self.firstSelectedTile != undefined) {
+            if (tileId == self.firstSelectedTile._id || tileId == self.secondSelectedTile._id) {
+                return "Selected"
+            }
+        }
+        return "notSelected";
+    };
+
+    self.showMessageBox = function() {
+        $timeout(function(){
+            self.succesMessage = '';
+            self.errorMessage = '';
+        }, 3000);
+    };
+
 
 
     /*//Matches
