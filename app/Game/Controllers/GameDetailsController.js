@@ -48,14 +48,14 @@ module.exports = function($scope, GameService, $stateParams) {
                         "tile1":self.matchedTiles[i].tile,
                         "tile2":self.matchedTiles[i+1].tile,
                         "player":self.matchedTiles[i].match
-                    }
+                    };
                     self.matches.push(match);
                 }
             }, function errorCallback(response) {
             self.errorMessage = response.data.message;
             self.showMessageBox();
         });
-    };
+    }
 
     self.getLeft = function(tileobject) {
         var value = (Number(tileobject.xPos) * 73 - (10 * Number(tileobject.zPos)))/2;
@@ -74,122 +74,172 @@ module.exports = function($scope, GameService, $stateParams) {
         }, 3000);
     };
 
-    self.selectTile = function(tileObject) {
-        if (self.tileCanBeSelected(tileObject.xPos, tileObject.yPos, tileObject.zPos)) {
-            if (tileObject == self.firstSelectedTile) {
-                self.firstSelectedTile = {};
-                console.log('first selected tile cleared');
-            } else if (tileObject == self.secondSelectedTile) {
-                self.secondSelectedTile = {};
-                console.log('second selected tile cleared');
-            }
-            else {
-                if (Object.keys(self.firstSelectedTile).length != 0) {
-                    self.secondSelectedTile = tileObject;
-                    if(self.tilesAreAMatch()){
-                        console.log('These tiles are a match!');
-                        self.match();
-                    } else {
-                        var nameFirstTile = self.firstSelectedTile.tile.suit + self.firstSelectedTile.tile.name;
-                        var nameSecondTile = self.secondSelectedTile.tile.suit + self.secondSelectedTile.tile.name;
+	self.selectTile = function(tileObject) {
+		self.tileCanBeSelected(tileObject);
+	};
 
-                        console.log('Not a match: ' + nameFirstTile + ' and ' + nameSecondTile);
-                    }
-                    console.log('second selected tile set');
-                } else {
-                    self.firstSelectedTile = tileObject;
-                    console.log('first selected tile set');
-                }
-            }
-        }
-        else {
-            console.log('Tile cannot be selected top:' + self.tileHasTilesOnTop(tileObject.xPos, tileObject.yPos, tileObject.zPos) + ' surrounded: ' + self.tileIsSurrounded(tileObject.xPos, tileObject.yPos, tileObject.zPos));
-        }
-    };
+	self.tileCanBeSelected = function(tileObject) {
+		var tiles = self.getSurroundingTiles(tileObject);
+	};
 
-    self.tileCanBeSelected = function(x,y,z) {
-        return !self.tileHasTilesOnTop(x,y,z) && !self.tileIsSurrounded(x,y,z);
-    };
+	self.getSurroundingTiles = function(selectedTile) {
+		var x = selectedTile.xPos;
+		var y = selectedTile.yPos;
+		var z = selectedTile.zPos;
+		var surroundedOnLeft = false;
+		var surroundedOnRight = false;
+		self.tiles.forEach(function(tileObject){
+			if(!tileObject.match && tileObject.zPos >= z && tileObject.yPos >= y - 1 && tileObject.yPos <= y + 1 && tileObject.xPos >= x - 2 && tileObject.xPos <= x + 2 && tileObject._id != selectedTile._id) {
+				//Check if surrounded
+				if(tileObject.zPos == z) {
+					if (tileObject.xPos == x - 2) {
+						if(surroundedOnRight){
+							return false;
+						}
+						surroundedOnLeft = true;
+					}
+					else if(tileObject.xPos == x + 2) {
+						if(surroundedOnLeft){
+							return false;
+						}
+						surroundedOnRight = true;
+					}
+				}
+				//Check has tile on top
+				if(tileObject.zPos > z) {
+					if(tileObject.xPos >= x -1 && tileObject.xPos <= x +1) {
+						if(tileObject.yPos >= y -1 && tileObject.yPos <= y + 1) {
+							return false;
+						}
+					}
+				}
+			}
+		});
+	};
 
-    self.tileHasTilesOnTop = function(x,y,z) {
-        var tilesInRow = self.getTilesByYValue(y);
-        var hasTilesOnTop = false;
-        for(var i = x -1; i <= x + 1; i ++) {
-            tilesInRow.forEach(function(tileObject){
-                if(tileObject.xPos == i && tileObject.zPos > z) {
-                    hasTilesOnTop = true;
-                }
-            });
-        }
-        return hasTilesOnTop;
-    };
 
-    self.tileIsSurrounded = function(x, y, z) {
 
-        var tiles = self.getSurroundingTilesForRows(x,y);
-        console.log('Tiles', tiles);
-
-        var surroundedOnLeft = false;
-        var surroundedOnRight = false;
-        tiles.forEach(function(tileObject){
-            if(surroundedOnLeft && surroundedOnRight) {
-                return true;
-            }
-            if(tileObject.xPos == x - 2) {
-                surroundedOnLeft = true;
-            } else if (tileObject.xPos == x + 2) {
-                surroundedOnRight = true;
-            }
-        });
-        return surroundedOnLeft && surroundedOnRight;
-    };
-
-    self.getSurroundingTilesForRows = function(y,z) {
-        var tilesInRowAboveOnSameLevel = self.getTilesByYAndZValue(y + 1, z);
-        var tilesInRowOnSameLevel = self.getTilesByYAndZValue(y,z);
-        var tilesInRowBelowOnSameLevel = self.getTilesByYAndZValue(y - 1, z);
-
-        return tilesInRowAboveOnSameLevel.concat(tilesInRowOnSameLevel, tilesInRowBelowOnSameLevel);
-    };
-
-    self.getTilesByYValue = function(y) {
-        var temp_tileArray = [];
-        self.tiles.forEach(function(tileObject) {
-            if(tileObject.yPos == y) {
-                temp_tileArray.push(tileObject);
-            }
-        });
-        return temp_tileArray;
-    };
-
-    self.getTilesByYAndZValue = function(y,z) {
-        var temp_tileArray = [];
-        self.tiles.forEach(function(tileObject){
-            if(tileObject.yPos == y && tileObject.zPos == z) {
-                temp_tileArray.push(tileObject);
-            }
-        });
-        return temp_tileArray;
-
-    };
-
-    self.tilesAreAMatch = function() {
-        var nameFirstTile = self.firstSelectedTile.tile.suit + self.firstSelectedTile.tile.name;
-        var nameSecondTile = self.secondSelectedTile.tile.suit + self.secondSelectedTile.tile.name;
-
-        return nameFirstTile == nameSecondTile;
-    };
+    //self.selectTile = function(tileObject) {
+		//console.log('selected', tileObject);
+    //    if (self.tileCanBeSelected(tileObject.xPos, tileObject.yPos, tileObject.zPos)) {
+    //        if (tileObject == self.firstSelectedTile) {
+    //            self.firstSelectedTile = {};
+    //            console.log('first selected tile cleared');
+    //        } else if (tileObject == self.secondSelectedTile) {
+    //            self.secondSelectedTile = {};
+    //            console.log('second selected tile cleared');
+    //        }
+    //        else {
+    //            if (Object.keys(self.firstSelectedTile).length != 0) {
+    //                self.secondSelectedTile = tileObject;
+    //                if(self.tilesAreAMatch()){
+    //                    console.log('These tiles are a match!');
+    //                    self.match();
+    //                } else {
+    //                    var nameFirstTile = self.firstSelectedTile.tile.suit + self.firstSelectedTile.tile.name;
+    //                    var nameSecondTile = self.secondSelectedTile.tile.suit + self.secondSelectedTile.tile.name;
+	//
+    //                    console.log('Not a match: ' + nameFirstTile + ' and ' + nameSecondTile);
+    //                }
+    //                console.log('second selected tile set');
+    //            } else {
+    //                self.firstSelectedTile = tileObject;
+    //                console.log('first selected tile set');
+    //            }
+    //        }
+    //    }
+    //    else {
+    //        console.log('Tile cannot be selected top:' + self.tileHasTilesOnTop(tileObject.xPos, tileObject.yPos, tileObject.zPos) + ' surrounded: ' + self.tileIsSurrounded(tileObject.xPos, tileObject.yPos, tileObject.zPos));
+    //    }
+    //};
+	//
+    //self.tileCanBeSelected = function(x,y,z) {
+    //    return !self.tileHasTilesOnTop(x,y,z) && !self.tileIsSurrounded(x,y,z);
+    //};
+	//
+    //self.tileHasTilesOnTop = function(x,y,z) {
+    //    var tilesInRow = self.getTilesByYValue(y);
+    //    var hasTilesOnTop = false;
+    //    for(var i = x -1; i <= x + 1; i ++) {
+    //        tilesInRow.forEach(function(tileObject){
+		//		console.log(!tileObject.match);
+		//		if(!tileObject.match) {
+		//			if (tileObject.xPos == i && tileObject.zPos > z) {
+		//				hasTilesOnTop = true;
+		//			}
+		//		}
+    //        });
+    //    }
+    //    return hasTilesOnTop;
+    //};
+	//
+    //self.tileIsSurrounded = function(x, y, z) {
+	//
+    //    var tiles = self.getSurroundingTilesForRows(x,y);
+	//
+    //    var surroundedOnLeft = false;
+    //    var surroundedOnRight = false;
+    //    tiles.forEach(function(tileObject) {
+		//	if(!tileObject.match) {
+		//		if (surroundedOnLeft && surroundedOnRight) {
+		//			return true;
+		//		}
+		//		if (tileObject.xPos == x - 2) {
+		//			surroundedOnLeft = true;
+		//		} else if (tileObject.xPos == x + 2) {
+		//			surroundedOnRight = true;
+		//		}
+		//	}
+    //    });
+    //    return surroundedOnLeft && surroundedOnRight;
+    //};
+	//
+    //self.getSurroundingTilesForRows = function(y,z) {
+    //    var tilesInRowAboveOnSameLevel = self.getTilesByYAndZValue(y + 1, z);
+    //    var tilesInRowOnSameLevel = self.getTilesByYAndZValue(y,z);
+    //    var tilesInRowBelowOnSameLevel = self.getTilesByYAndZValue(y - 1, z);
+	//
+    //    return tilesInRowAboveOnSameLevel.concat(tilesInRowOnSameLevel, tilesInRowBelowOnSameLevel);
+    //};
+	//
+    //self.getTilesByYValue = function(y) {
+    //    var temp_tileArray = [];
+    //    self.tiles.forEach(function(tileObject) {
+    //        if(tileObject.yPos == y && !tileObject.match) {
+    //            temp_tileArray.push(tileObject);
+    //        }
+    //    });
+    //    return temp_tileArray;
+    //};
+	//
+    //self.getTilesByYAndZValue = function(y,z) {
+    //    var temp_tileArray = [];
+    //    self.tiles.forEach(function(tileObject){
+    //        if(tileObject.yPos == y && tileObject.zPos == z && !tileObject.match) {
+    //            temp_tileArray.push(tileObject);
+    //        }
+    //    });
+    //    return temp_tileArray;
+	//
+    //};
+	//
+    //self.tilesAreAMatch = function() {
+    //    var nameFirstTile = self.firstSelectedTile.tile.suit + self.firstSelectedTile.tile.name;
+    //    var nameSecondTile = self.secondSelectedTile.tile.suit + self.secondSelectedTile.tile.name;
+	//
+    //    return nameFirstTile == nameSecondTile;
+    //};
 
     self.match = function() {
 
         GameService.match($stateParams.id, self.firstSelectedTile._id, self.secondSelectedTile._id)
             .then(function successCallback(response) {
                 getGameDetails();
-            })
+            });
 
         self.firstSelectedTile = {};
         self.secondSelectedTile = {};
-    }
+    };
 
 
     /*//Matches
