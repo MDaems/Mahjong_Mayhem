@@ -2,7 +2,6 @@
 @import 'theme';
 @import 'sprites';
 
-
 // Including themes
 // By looping through the $themes map
 @each $key, $value in $themes {

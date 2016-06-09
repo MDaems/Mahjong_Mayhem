@@ -32,12 +32,11 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 			self.errorMessage = err.statusText;
 			self.showMessageBox();
 		});
-	}
+	};
 
 
 	self.canJoinGame = function(game) {
-
-		if(game.createdBy._id == self.currentUser || game.state != 'open' || game.maxPlayers <= game.players.length) {
+		if(self.currentUser == undefined || game.createdBy._id == self.currentUser || game.state != 'open' || game.maxPlayers <= game.players.length) {
 			return false;
 		}
 		else {
@@ -56,7 +55,7 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
 		GameService.joinGame(game)
 			.then(function successCallback(response) {
 			self.succesMessage = 'Successfully joined game';
-				//getGames();
+				getGames();
 			self.showMessageBox();
 		},function errorCallback(err) {
 			self.errorMessage = err.statusText;
@@ -74,10 +73,24 @@ module.exports = function($scope, $http, $timeout, GameService, GameFactory){//}
     self.startGame = function(game){
         GameService.startGame(game).then(function(response){
             self.succesMessage = "Game has started!";
+			getGames();
         }, function(err){
             self.errorMessage = err.data.message;
         });
     }
+
+	self.canPlayGame = function(game) {
+		if(self.currentUser != undefined && game.state != 'open') {
+			if (game.players.length > 0) {
+				for (var i = 0; i < game.players.length; i++) {
+					if (game.players[i]._id == self.currentUser) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	};
 	self.showMessageBox = function()
 	{
 		$timeout(function(){

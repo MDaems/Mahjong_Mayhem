@@ -2,6 +2,7 @@
 // @param $name: name of the theme (HTML class)
 // @param $color: color of the theme
 @mixin theme($name, $color) {
+
   .#{$name} {
     .component{
       border-color: darken($color, 10%);
