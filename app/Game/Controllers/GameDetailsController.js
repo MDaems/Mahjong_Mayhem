@@ -1,4 +1,4 @@
-module.exports = function($scope, GameService, $stateParams, $timeout) {
+module.exports = function($scope, GameService, $stateParams, $timeout, GameSocket) {
     var self = this;
 
     self.game = '';
@@ -13,6 +13,11 @@ module.exports = function($scope, GameService, $stateParams, $timeout) {
     self.successMessage = '';
     self.errorMessage = '';
     getGameDetails();
+
+    GameSocket.connect($stateParams.id);
+    GameSocket.match(function(data){
+        self.removeMatchedTiles(data)
+    });
 
     function getGameDetails() {
         self.tiles = [];
@@ -70,19 +75,15 @@ module.exports = function($scope, GameService, $stateParams, $timeout) {
         if(self.tileCanBeSelected(tileObject)){
             if(self.firstSelectedTile == tileObject ) {
                 self.firstSelectedTile = [];
-                console.log('first removed');
             } else if(self.secondSelectedTile == tileObject) {
                 self.secondSelectedTile = [];
-                console.log('second removed');
             } else {
                 if(Object.keys(self.firstSelectedTile).length == 0) {
                     self.firstSelectedTile = tileObject;
-                    console.log('first set');
                     self.tryMatch();
                 } else {
                     self.secondSelectedTile = tileObject;
                     self.tryMatch();
-                    console.log('second set');
                 }
             }
         }
@@ -129,7 +130,6 @@ module.exports = function($scope, GameService, $stateParams, $timeout) {
                 //Check if surrounded
                 if(tileObject.zPos == z) {
                     if (tileObject.xPos == x - 2) {
-                        console.log('surrounded on left');
                         if(surroundedOnRight){
                             returnValue = false;
                             self.showErrorMessage('Tegel is horizontaal ingesloten');
@@ -137,7 +137,6 @@ module.exports = function($scope, GameService, $stateParams, $timeout) {
                         surroundedOnLeft = true;
                     }
                     else if(tileObject.xPos == x + 2) {
-                        console.log('surrounded on right');
                         if(surroundedOnLeft){
                             returnValue = false;
                             self.showErrorMessage('Tegel is horizontaal ingesloten');
@@ -174,12 +173,16 @@ module.exports = function($scope, GameService, $stateParams, $timeout) {
     self.match = function() {
     GameService.match($stateParams.id, self.firstSelectedTile._id, self.secondSelectedTile._id)
         .then(function successCallback(response) {
-            for(var i = 0; i < self.tiles.length; i ++) {
-                if(self.tiles[i]._id == response.data[0]._id || self.tiles[i]._id == response.data[1]._id) {
-                    self.tiles.splice(i,1);
-                }
-            }
+            //self.removeMatchedTiles(response.data);
         });
+    };
+
+    self.removeMatchedTiles = function(data) {
+        for(var i = 0; i < self.tiles.length; i ++) {
+            if(self.tiles[i]._id == data[0]._id || self.tiles[i]._id == data[1]._id) {
+                self.tiles.splice(i,1);
+            };
+        }
     };
 
     self.isSelected= function(tileId) {

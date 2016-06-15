@@ -1,5 +1,5 @@
 module.exports = function($http){
-	var urlBase = "http://mahjongmayhem.herokuapp.com"
+	var urlBase = "http://mahjongmayhem.herokuapp.com";
 	var service = {};
 
 	service.getGames = function () {
@@ -59,8 +59,6 @@ module.exports = function($http){
     };
 
     service.match = function(gameId, firstTile, secondTile) {
-        console.log('Request');
-        console.log('firstTile:',firstTile, ' secondTile: ',secondTile);
         return $http({
             method: 'POST',
             url: urlBase + '/Games/' + gameId + '/Tiles/matches',
