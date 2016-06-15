@@ -1,4 +1,4 @@
-module.exports = function($scope, $stateParams){
+module.exports = function($scope, $stateParams, $state){
 	var self = this;
 
 	if(window.localStorage['token'] == undefined && window.localStorage['username'] == undefined){
@@ -14,8 +14,12 @@ module.exports = function($scope, $stateParams){
 
 	self.logout = function()
 	{
-		window.localStorage.clear();
+		/*
 		window.location.href = '#/home/';
+		window.location.reload();*/
+
+		window.localStorage.clear();
+		$state.transitionTo('home');
 		window.location.reload();
 	};
 }
