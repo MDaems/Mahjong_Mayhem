@@ -1,6 +1,6 @@
 var Game = require('../Models/Game');
 
-module.exports = function($scope, $http, $timeout, GameService, SocketService){//}, $routeParams) {
+module.exports = function($scope, $http, $timeout, GameService){//}, $routeParams) {
 
     var self = this;
 	self.games = [];

@@ -5,6 +5,19 @@
   background: url(defaultSprites.png);
 }
 
+
+.switch-button {
+  position:absolute;
+  right:23px;
+  background: url(dinobiker.jpg);
+  background-size: 100% 100%;
+  width:200px;
+  height:200px;
+  cursor:pointer;
+}
+
+
+
 .sprite-character1  { background-position: 0 0; }
 .sprite-character2  { background-position: 949px 0; }
 .sprite-character3  { background-position: 876px 0; }

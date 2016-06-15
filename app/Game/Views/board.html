@@ -1,3 +1,5 @@
+<link rel="stylesheet" ng-href="{{gdCtrl.chosenTemplate == 'Dinosaurs' ? './css/epicDinosaurSprites.css' : './css/sprites_old.css'}}">
+
 <div class="text-center">
 	<div class="alert alert-success" ng-if="gdCtrl.successMessage != ''">
 		{{ gdCtrl.successMessage }}
@@ -5,26 +7,27 @@
 	<div class="alert alert-danger" ng-if="gdCtrl.errorMessage != ''">
 		{{ gdCtrl.errorMessage }}
 	</div>
-    <div style="
-				position: absolute;
-				left: 20%;
-				top: 170px;"
-		z-index="-1"
-	>
-		<div
-			style="position:absolute;"
-			ng-repeat="tileObject in gdCtrl.tiles"
-			ng-if="tileObject.match.foundBy == undefined"
-			class="sprite sprite-{{tileObject.tile.suit + tileObject.tile.name | lowercase}}"
-			ng-class="gdCtrl.isSelected(tileObject._id)"
-			ng-style="{'left': tileObject.left, 'top': tileObject.top, 'z-index': tileObject.zPos}"
-			ng-click="gdCtrl.selectTile(tileObject)">
-		</div>
-	</div>
-
-	<div
-		ng-if="gdCtrl.game.state == 'finished'"
-		style="width:300px;text-align:center; font-size:20px;background-color:lightgray;position:absolute;margin:0 auto;top:150px;">
+	<div ng-if="gdCtrl.game.state == 'finished'" class="alert alert-danger">
 		No more matches possible!
+	</div>
+	<div class="pull-left">
+		<div style="
+					position: absolute;
+					left: 17%;
+					top: 170px;"
+			z-index="-1"
+		>
+			<div
+				style="position:absolute;"
+				ng-repeat="tileObject in gdCtrl.tiles"
+				ng-if="tileObject.match.foundBy == undefined"
+				class="sprite sprite-{{tileObject.tile.suit + tileObject.tile.name | lowercase}}"
+				ng-class="gdCtrl.isSelected(tileObject._id)"
+				ng-style="{'left': tileObject.left, 'top': tileObject.top, 'z-index': tileObject.zPos}"
+				ng-click="gdCtrl.selectTile(tileObject)">
+			</div>
+
+			<button class="btn btn-primary btn-sm" ng-click="gdCtrl.changeTemplate()">Change Template</button>
+		</div>
 	</div>
 </div>

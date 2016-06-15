@@ -1,7 +1,8 @@
 module.exports = function () {
 	return {
 		connect: connect,
-		match: match
+		match: match,
+		endGame : endGame
 	};
 
 	var socket;
@@ -13,6 +14,12 @@ module.exports = function () {
 
 	function match(callback){
 		socket.on("match", function(data){
+			if(callback) callback(data);
+		});
+	}
+
+	function endGame(callback){
+		socket.on("end", function(data){
 			if(callback) callback(data);
 		});
 	}
