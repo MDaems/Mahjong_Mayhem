@@ -10,7 +10,7 @@ module.exports = function($scope, GameService, $stateParams, $timeout) {
     self.firstSelectedTile = {};
     self.secondSelectedTile = {};
 
-    self.succesMessage = '';
+    self.successMessage = '';
     self.errorMessage = '';
     getGameDetails();
 
@@ -66,80 +66,98 @@ module.exports = function($scope, GameService, $stateParams, $timeout) {
         var value = ((Number(tileobject.yPos) * 90) - (10 * Number(tileobject.zPos)))/2;
         return value + 'px';
     };
-
-	self.selectTile = function(tileObject) {
-		if(self.tileCanBeSelected(tileObject)){
-			if(self.firstSelectedTile == tileObject ) {
-				self.firstSelectedTile = [];
-				console.log('first removed');
-			} else if(self.secondSelectedTile == tileObject) {
-				self.secondSelectedTile = [];
-				console.log('second removed');
-			} else {
-                if(Object.keys(self.firstSelectedTile).length != 0) {
-                    self.secondSelectedTile = tileObject;
-                    if(self.tilesAreAMatch()) {
-                        self.match();
-                        self.succesMessage = "Match gevonden!";
-                        self.showMessageBox();
-                    }else
-                    {
-                        self.errorMessage = "Geen Match!";
-                        self.showMessageBox();
-                    }
-                    self.firstSelectedTile = [];
-                    self.secondSelectedTile = [];
-                } else {
+    self.selectTile = function(tileObject) {
+        if(self.tileCanBeSelected(tileObject)){
+            if(self.firstSelectedTile == tileObject ) {
+                self.firstSelectedTile = [];
+                console.log('first removed');
+            } else if(self.secondSelectedTile == tileObject) {
+                self.secondSelectedTile = [];
+                console.log('second removed');
+            } else {
+                if(Object.keys(self.firstSelectedTile).length == 0) {
                     self.firstSelectedTile = tileObject;
+                    console.log('first set');
+                    self.tryMatch();
+                } else {
+                    self.secondSelectedTile = tileObject;
+                    self.tryMatch();
+                    console.log('second set');
                 }
-			}
-		}
-	};
+            }
+        }
+    };
 
-	self.tileCanBeSelected = function(selectedTile) {
-		if(self.game.state == 'finished') {
-			return false;
-		}
-		var x = selectedTile.xPos;
-		var y = selectedTile.yPos;
-		var z = selectedTile.zPos;
-		console.log(x,y,z);
-		var surroundedOnLeft = false;
-		var surroundedOnRight = false;
-		var noSurroundingTiles = true;
-		self.tiles.forEach(function(tileObject){
-			if(!tileObject.match && tileObject.zPos >= z && tileObject.yPos >= y - 1 && tileObject.yPos <= y + 1 && tileObject.xPos >= x - 2 && tileObject.xPos <= x + 2 && tileObject._id != selectedTile._id) {
-				console.log(tileObject.xPos, tileObject.yPos, tileObject.zPos);
-				//Check if surrounded
-				if(tileObject.zPos == z) {
-					if (tileObject.xPos == x - 2) {
-						if(surroundedOnRight){
-							return false;
-						}
-						surroundedOnLeft = true;
-					}
-					else if(tileObject.xPos == x + 2) {
-						if(surroundedOnLeft){
-							return false;
-						}
-						surroundedOnRight = true;
-					}
-				}
-				//Check has tile on top
-				if(tileObject.zPos > z) {
-					if(tileObject.xPos >= x -1 && tileObject.xPos <= x +1) {
-						if(tileObject.yPos >= y -1 && tileObject.yPos <= y + 1) {
-							return false;
-						}
-					}
-				}
-				noSurroundingTiles = false;
-			}
-		});
-		if(noSurroundingTiles) {
-			return true;
-		}
-	};
+    self.tryMatch = function() {
+        if(Object.keys(self.firstSelectedTile).length != 0 && Object.keys(self.secondSelectedTile).length != 0) {
+            if (self.tilesAreAMatch()) {
+                    self.showSuccessMessage('Match gevonden!');
+                self.match();
+            } else {            
+                self.showErrorMessage('Geen match!');
+            }
+            self.firstSelectedTile = [];
+            self.secondSelectedTile = [];
+        }
+    };
+
+    self.showSuccessMessage = function(message) {
+        self.successMessage = message;
+        self.showMessageBox();
+    };
+
+    self.showErrorMessage = function(message) {
+        self.errorMessage = message;
+        self.showMessageBox();
+    };
+
+    self.tileCanBeSelected = function(selectedTile) {
+        var returnValue = true;
+        if(self.game.state == 'finished') {
+            self.showErrorMessage('Er zijn geen matches meer mogelijk');
+            return false;
+        }
+        var x = selectedTile.xPos;
+        var y = selectedTile.yPos;
+        var z = selectedTile.zPos;
+        var surroundedOnLeft = false;
+        var surroundedOnRight = false;
+
+        //var noSurroundingTiles = false;
+        self.tiles.forEach(function(tileObject){
+            if(!tileObject.match && tileObject.zPos >= z && tileObject.yPos >= y - 1 && tileObject.yPos <= y + 1 && tileObject.xPos >= x - 2 && tileObject.xPos <= x + 2 && tileObject._id != selectedTile._id) {
+                //Check if surrounded
+                if(tileObject.zPos == z) {
+                    if (tileObject.xPos == x - 2) {
+                        console.log('surrounded on left');
+                        if(surroundedOnRight){
+                            returnValue = false;
+                            self.showErrorMessage('Tegel is horizontaal ingesloten');
+                        }
+                        surroundedOnLeft = true;
+                    }
+                    else if(tileObject.xPos == x + 2) {
+                        console.log('surrounded on right');
+                        if(surroundedOnLeft){
+                            returnValue = false;
+                            self.showErrorMessage('Tegel is horizontaal ingesloten');
+                        }
+                        surroundedOnRight = true;
+                    }
+                }
+                //Check has tile on top
+                if(tileObject.zPos > z) {
+                    if(tileObject.xPos >= x -1 && tileObject.xPos <= x +1) {
+                        if(tileObject.yPos >= y -1 && tileObject.yPos <= y + 1) {
+                            self.showErrorMessage('Tegel ligt onder een andere tegel');
+                            returnValue = false;
+                        }
+                    }
+                }
+            }
+        });
+        return returnValue;
+    };
 
     self.tilesAreAMatch = function() {
 		if(self.firstSelectedTile.tile.suit == self.secondSelectedTile.tile.suit){
@@ -175,7 +193,7 @@ module.exports = function($scope, GameService, $stateParams, $timeout) {
 
     self.showMessageBox = function() {
         $timeout(function(){
-            self.succesMessage = '';
+            self.successMessage = '';
             self.errorMessage = '';
         }, 3000);
     };
