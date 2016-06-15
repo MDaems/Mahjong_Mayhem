@@ -6,6 +6,7 @@ module.exports = function($scope, GameService, $stateParams, $timeout) {
     self.tiles = [];
     self.matches = [];
     self.username = window.localStorage['username'];
+    self.chosenTemplate = 'Default';
 
     self.firstSelectedTile = {};
     self.secondSelectedTile = {};
@@ -56,6 +57,23 @@ module.exports = function($scope, GameService, $stateParams, $timeout) {
             self.showMessageBox();
         });
     }
+
+	self.getSprites = function() {
+		if(self.chosenTemplate == 'Dinosaurs') {
+			console.log('dinosaurs');
+			return './css/epicDinosaurSprites.css';
+		}
+		console.log('old');
+		return './css/sprites_old.css';
+	};
+
+	self.changeTemplate = function() {
+		if(self.chosenTemplate == 'Dinosaurs') {
+			self.chosenTemplate = 'Default';
+		} else {
+			self.chosenTemplate = 'Dinosaurs';
+		}
+	};
 
     self.getLeft = function(tileobject) {
         var value = (Number(tileobject.xPos) * 73 - (10 * Number(tileobject.zPos)))/2;
